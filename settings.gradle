@@ -8,3 +8,6 @@
  */
 
 rootProject.name = 'email-client-server'
+
+include 'client'
+include 'server'
