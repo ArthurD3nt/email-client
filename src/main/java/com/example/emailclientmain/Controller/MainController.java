@@ -19,6 +19,7 @@ public class MainController {
     public TextField loginTextField;
     @FXML
     public BorderPane root;
+    
     @FXML
     public ListView listviewEmail;
 
@@ -49,7 +50,6 @@ public class MainController {
             FXMLLoader listview = new FXMLLoader(EmailClientMain.class.getResource("listview.fxml"));
             this.listview = listview.load();
             root.setCenter(this.listview);
-
 
 
         }
