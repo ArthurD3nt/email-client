@@ -13,7 +13,7 @@
       <children>
          <Label text="Inserici la tua email" />
          <TextField fx:id="loginTextField"/>
-         <Button mnemonicParsing="false" text="ACCEDI" onAction="#loadController"/>
+         <Button mnemonicParsing="false" text="ACCEDI" onAction="#connectionController" />
       </children>
    </VBox>
    </center>

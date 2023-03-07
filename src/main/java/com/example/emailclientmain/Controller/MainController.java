@@ -13,6 +13,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+
+import java.io.*;
+import java.net.*;
+
+
 public class MainController {
 
     @FXML
@@ -31,7 +36,7 @@ public class MainController {
 
     private BoxButtonsController buttonsController;
     @FXML
-    public void loadController(ActionEvent actionEvent) {
+    public void loadController() {
 
         try{
             /*recupero finestra tramite id e setto un nuovo titolo*/
@@ -59,5 +64,45 @@ public class MainController {
 
 
 
+    }
+
+    //TODO: Implementare tutti gli error handler 
+    public void connectionController(ActionEvent actionEvent) {
+
+        String email = loginTextField.getText();
+        
+        // get the value in the textfield and open a connection with the server
+        // if the connection is successful, load the next scene
+        try {
+            String server = InetAddress.getLocalHost().getHostName();
+
+            Socket socket = new Socket(server, 8189);
+
+        try{
+            // send the email to the server
+            OutputStream outputStream = socket.getOutputStream();
+            DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+            
+            dataOutputStream.writeUTF(email);
+
+            InputStream inputStream = socket.getInputStream();
+            int response = inputStream.read();
+            switch (response) {
+                case 1:
+                    loadController();
+                    break;
+                case 0:
+                    // show an error message 
+                    System.out.println("Error");
+                    break;
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
