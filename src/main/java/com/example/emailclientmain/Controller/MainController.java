@@ -15,10 +15,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
 import java.io.*;
 import java.net.*;
-
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainController {
 
@@ -26,7 +26,7 @@ public class MainController {
     public TextField loginTextField;
     @FXML
     public BorderPane root;
-    
+
     @FXML
     public ListView listviewEmail;
 
@@ -37,84 +37,75 @@ public class MainController {
     private Client client;
 
     private BoxButtonsController buttonsController;
+
     @FXML
     public void loadController() {
 
-        try{
-            /*recupero finestra tramite id e setto un nuovo titolo*/
+        try {
+            /* recupero finestra tramite id e setto un nuovo titolo */
             stage = (Stage) root.getScene().getWindow();
             stage.setTitle("client mail");
 
             client = new Client(loginTextField.getText());
 
-            /* Carico l'xml dei bottoni a sinistra*/
+            /* Carico l'xml dei bottoni a sinistra */
             FXMLLoader buttons = new FXMLLoader(EmailClientMain.class.getResource("box-buttons.fxml"));
             buttonsController = buttons.getController();
             root.setLeft(buttons.load());
             buttonsController.loadController(client);
 
-            /* Carico l'xml delle email che starà al centro*/
+            /* Carico l'xml delle email che starà al centro */
             FXMLLoader listview = new FXMLLoader(EmailClientMain.class.getResource("listview.fxml"));
             this.listview = listview.load();
             root.setCenter(this.listview);
 
-
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e);
         }
 
-
-
     }
 
-    //TODO: Implementare tutti gli error handler 
+    // TODO: Implementare tutti gli error handler
     public void connectionController(ActionEvent actionEvent) {
 
         String email = loginTextField.getText();
 
-        
-
-
         // check email with regex
         if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             errorAllert("Email format not valid");
-            return;
-        }
-        
-        // get the value in the textfield and open a connection with the server
-        // if the connection is successful, load the next scene
-        try {
-            String server = InetAddress.getLocalHost().getHostName();
+        } else {
+            // get the value in the textfield and open a connection with the server
+            // if the connection is successful, load the next scene
+            try {
+                String server = InetAddress.getLocalHost().getHostName();
 
-            Socket socket = new Socket(server, 8189);
+                Socket socket = new Socket(server, 8189);
 
-        try{
-            // send the email to the server
-            OutputStream outputStream = socket.getOutputStream();
-            DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-            
-            dataOutputStream.writeUTF(email);
+                try {
+                    ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-            InputStream inputStream = socket.getInputStream();
-            int response = inputStream.read();
-            socket.close();
-            switch (response) {
-                case 1:
-                    loadController();
-                    break;
-                case 0:
-                    // show an error message 
-                    errorAllert("Email not found");
-                    break;
+                    // send a json with the email
+                    Map<String, String> jsonMap = new HashMap<>();
+                    jsonMap.put("type", "connection");
+                    jsonMap.put("email", email);
+                    out.writeObject(jsonMap);
+                    // get the response from the server
+                    Map<String, Object> jsonResponse = (Map<String, Object>) in.readObject();
+                    String res = (String) jsonResponse.get("response");
+                    if (res.equals("0")) {
+                        loadController();
+                    } else {
+                        errorAllert("Email not found");
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
