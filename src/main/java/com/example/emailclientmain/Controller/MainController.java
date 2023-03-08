@@ -6,8 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -70,6 +72,15 @@ public class MainController {
     public void connectionController(ActionEvent actionEvent) {
 
         String email = loginTextField.getText();
+
+        
+
+
+        // check email with regex
+        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            errorAllert("Email format not valid");
+            return;
+        }
         
         // get the value in the textfield and open a connection with the server
         // if the connection is successful, load the next scene
@@ -87,13 +98,14 @@ public class MainController {
 
             InputStream inputStream = socket.getInputStream();
             int response = inputStream.read();
+            socket.close();
             switch (response) {
                 case 1:
                     loadController();
                     break;
                 case 0:
                     // show an error message 
-                    System.out.println("Error");
+                    errorAllert("Email not found");
                     break;
             }
             
@@ -104,5 +116,12 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void errorAllert(String message) {
+        Alert errorAlert = new Alert(AlertType.ERROR);
+        errorAlert.setHeaderText("Input not valid");
+        errorAlert.setContentText(message);
+        errorAlert.showAndWait();
     }
 }
