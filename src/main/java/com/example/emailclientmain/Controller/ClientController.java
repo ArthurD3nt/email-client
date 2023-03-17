@@ -1,6 +1,6 @@
 package com.example.emailclientmain.Controller;
 
-import com.example.emailclientmain.Client;
+import com.example.emailclientmain.Model.ClientModel;
 import com.example.emailclientmain.Email;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -34,7 +34,7 @@ public class ClientController {
     @FXML
     private ListView<Email> lstEmails;
 
-    private Client model;
+    private ClientModel model;
     private Email selectedEmail;
     private Email emptyEmail;
 
@@ -43,10 +43,10 @@ public class ClientController {
         if (this.model != null)
             throw new IllegalStateException("Model can only be initialized once");
         //istanza nuovo client
-        model = new Client("studente@unito.it");
-        model.generateRandomEmails(10);
+        model = new ClientModel("studente@unito.it");
 
-        selectedEmail = null;
+
+        /*selectedEmail = null;
 
         //binding tra lstEmails e inboxProperty
         lstEmails.itemsProperty().bind(model.inboxProperty());
@@ -55,7 +55,7 @@ public class ClientController {
 
         emptyEmail = new Email("", List.of(""), "", "");
 
-        updateDetailView(emptyEmail);
+        updateDetailView(emptyEmail);*/
     }
 
     /**

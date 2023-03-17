@@ -7,4 +7,6 @@ module com.example.emailclientserver {
     exports com.example.emailclientmain;
     exports com.example.emailclientmain.Controller;
     opens com.example.emailclientmain.Controller to javafx.fxml;
+    exports com.example.emailclientmain.Model;
+    opens com.example.emailclientmain.Model to javafx.fxml;
 }

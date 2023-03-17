@@ -1,11 +1,8 @@
 package com.example.emailclientmain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-/**
- * Rappresenta una mail
- */
 
 public class Email {
 
@@ -14,17 +11,9 @@ public class Email {
     private String subject;
     private String text;
 
+    private Date datetime;
+
     private Email() {}
-
-    /**
-     * Costruttore della classe.
-     *
-     * @param sender     email del mittente
-     * @param receivers  emails dei destinatari
-     * @param subject    oggetto della mail
-     * @param text       testo della mail
-     */
-
 
     public Email(String sender, List<String> receivers, String subject, String text) {
         this.sender = sender;
@@ -49,9 +38,7 @@ public class Email {
         return text;
     }
 
-    /**
-     * @return      stringa composta dagli indirizzi e-mail del mittente più destinatari
-     */
+
     @Override
     public String toString() {
         return String.join(" - ", List.of(this.sender,this.subject));

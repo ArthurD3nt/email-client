@@ -1,6 +1,6 @@
 package com.example.emailclientmain.Controller;
 
-import com.example.emailclientmain.Client;
+import com.example.emailclientmain.Model.ClientModel;
 import com.example.emailclientmain.EmailClientMain;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +19,6 @@ public class MainController {
     public TextField loginTextField;
     @FXML
     public BorderPane root;
-    
     @FXML
     public ListView listviewEmail;
 
@@ -27,9 +26,11 @@ public class MainController {
 
     private Parent listview;
 
-    private Client client;
+    private ClientModel clientModel;
 
     private BoxButtonsController buttonsController;
+
+    private ListViewController listViewController;
     @FXML
     public void loadController(ActionEvent actionEvent) {
 
@@ -38,18 +39,21 @@ public class MainController {
             stage = (Stage) root.getScene().getWindow();
             stage.setTitle("client mail");
 
-            client = new Client(loginTextField.getText());
+            clientModel = new ClientModel(loginTextField.getText());
 
             /* Carico l'xml dei bottoni a sinistra*/
-            FXMLLoader buttons = new FXMLLoader(EmailClientMain.class.getResource("box-buttons.fxml"));
-            buttonsController = buttons.getController();
-            root.setLeft(buttons.load());
-            buttonsController.loadController(client);
+            FXMLLoader boxButtons = new FXMLLoader(EmailClientMain.class.getResource("box-buttons.fxml"));
+            root.setLeft(boxButtons.load());
+            buttonsController = boxButtons.getController();
+            buttonsController.loadController(clientModel, root);
 
             /* Carico l'xml delle email che starà al centro*/
             FXMLLoader listview = new FXMLLoader(EmailClientMain.class.getResource("listview.fxml"));
             this.listview = listview.load();
+            listViewController = listview.getController();
             root.setCenter(this.listview);
+            listViewController.loadController(clientModel);
+
 
 
         }
