@@ -6,13 +6,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="root" fx:controller="com.example.emailclientmain.Controller.MainController" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="root" fx:controller="com.example.emailclientmain.controller.MainController" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <center>
    <VBox  alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" >
       <children>
          <Label text="Inserici la tua email" />
          <TextField fx:id="loginTextField"/>
-         <Button mnemonicParsing="false" text="ACCEDI" onAction="#loadController"/>
+         <Button mnemonicParsing="false" text="ACCEDI" onAction="#loadController" defaultButton="true"/>
       </children>
    </VBox>
    </center>

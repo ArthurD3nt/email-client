@@ -1,4 +1,4 @@
-package com.example.emailclientmain.bean;
+package com.example.transmission;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;

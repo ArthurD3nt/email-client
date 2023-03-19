@@ -1,7 +1,6 @@
 package com.example.transmission;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class ConnectionBody extends BaseBody {
     private ArrayList<ArrayList<EmailBody>> emails;

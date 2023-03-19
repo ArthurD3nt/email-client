@@ -1,4 +1,4 @@
-package com.example.emailclientmain.bean;
+package com.example.transmission;
 
 
 import java.sql.Timestamp;

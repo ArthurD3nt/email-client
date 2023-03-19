@@ -1,6 +1,6 @@
-package com.example.emailclientmain.Controller;
+package com.example.emailclientmain.controller;
 
-import com.example.emailclientmain.Model.ClientModel;
+import com.example.emailclientmain.model.ClientModel;
 import com.example.emailclientmain.EmailClientMain;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,6 +35,7 @@ public class MainController {
     public void loadController(ActionEvent actionEvent) {
 
         try{
+
             /*recupero finestra tramite id e setto un nuovo titolo*/
             stage = (Stage) root.getScene().getWindow();
             stage.setTitle("client mail");
@@ -45,7 +46,6 @@ public class MainController {
             FXMLLoader boxButtons = new FXMLLoader(EmailClientMain.class.getResource("box-buttons.fxml"));
             root.setLeft(boxButtons.load());
             buttonsController = boxButtons.getController();
-            buttonsController.loadController(clientModel, root);
 
             /* Carico l'xml delle email che starà al centro*/
             FXMLLoader listview = new FXMLLoader(EmailClientMain.class.getResource("listview.fxml"));
@@ -54,13 +54,19 @@ public class MainController {
             root.setCenter(this.listview);
             listViewController.loadController(clientModel);
 
+            buttonsController.loadController(clientModel, root, this.listview);
+
+            /* Chiamo il server tramite client controller per fare la connessione */
+            ClientController clientController = new ClientController(clientModel);
+            clientController.firstConnection(loginTextField.getText());
 
 
         }
         catch (IOException e){
             System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
-
 
 
     }

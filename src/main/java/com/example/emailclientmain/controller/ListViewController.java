@@ -1,13 +1,13 @@
-package com.example.emailclientmain.Controller;
+package com.example.emailclientmain.controller;
 
-import com.example.emailclientmain.Email;
-import com.example.emailclientmain.EmailClientMain;
-import com.example.emailclientmain.Model.ClientModel;
+import com.example.emailclientmain.model.ClientModel;
+import com.example.transmission.EmailBody;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 
-import java.util.ArrayList;
+import java.io.IOException;
 
 public class ListViewController {
     @FXML
@@ -15,11 +15,17 @@ public class ListViewController {
 
     public void loadController(ClientModel clientModel){
 
-            listviewEmail.itemsProperty().bind(clientModel.inboxProperty());
+        clientModel.getCurrentEmails().addListener((ListChangeListener<EmailBody>)(value)-> {
+            listviewEmail.itemsProperty().setValue((ObservableList<EmailBody>) value.getList());
+        });
 
-            for(int i  = 0; i< 2; i++){
-                System.out.println(listviewEmail);
+        listviewEmail.setCellFactory((listView)-> {
+            try {
+                return new EmailCellController(clientModel, listviewEmail);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+        });
 
     }
 }

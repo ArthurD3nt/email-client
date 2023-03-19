@@ -1,4 +1,4 @@
-package com.example.emailclientmain.bean;
+package com.example.transmission;
 
 public class BooleanBody  extends BaseBody {
     private boolean result ;

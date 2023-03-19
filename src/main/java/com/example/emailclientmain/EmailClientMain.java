@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -21,6 +22,7 @@ public class EmailClientMain extends Application {
         Scene scene = new Scene(login.load(), 900, 600);
         stage.setTitle("Login");
         stage.setScene(scene);
+        scene.getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, (WindowEvent e)-> System.exit(1));
 
         stage.show();
     }

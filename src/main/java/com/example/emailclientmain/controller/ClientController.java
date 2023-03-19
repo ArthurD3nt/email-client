@@ -1,92 +1,64 @@
-package com.example.emailclientmain.Controller;
+package com.example.emailclientmain.controller;
 
-import com.example.emailclientmain.Model.ClientModel;
-import com.example.emailclientmain.Email;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
+import com.example.emailclientmain.model.ClientModel;
+import com.example.transmission.*;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.ArrayList;
 
-import java.util.List;
-
-/**
- * Classe Controller 
- */
 
 public class ClientController {
-    @FXML
-    private Label lblFrom;
+    private Socket socket;
+    private ObjectOutputStream outputStream = null;
+    private ObjectInputStream inputStream = null;
 
-    @FXML
-    private Label lblTo;
+    private ClientModel clientModel;
 
-    @FXML
-    private Label lblSubject;
-
-    @FXML
-    private Label lblUsername;
-
-    @FXML
-    private TextArea txtEmailContent;
-
-    @FXML
-    private ListView<Email> lstEmails;
-
-    private ClientModel model;
-    private Email selectedEmail;
-    private Email emptyEmail;
-
-    @FXML
-    public void initialize(){
-        if (this.model != null)
-            throw new IllegalStateException("Model can only be initialized once");
-        //istanza nuovo client
-        model = new ClientModel("studente@unito.it");
-
-
-        /*selectedEmail = null;
-
-        //binding tra lstEmails e inboxProperty
-        lstEmails.itemsProperty().bind(model.inboxProperty());
-        lstEmails.setOnMouseClicked(this::showSelectedEmail);
-        lblUsername.textProperty().bind(model.emailAddressProperty());
-
-        emptyEmail = new Email("", List.of(""), "", "");
-
-        updateDetailView(emptyEmail);*/
+    public ClientController(ClientModel clientModel) {
+        this.clientModel = clientModel;
     }
 
-    /**
-     * Elimina la mail selezionata
-     */
-    @FXML
-    protected void onDeleteButtonClick() {
-        model.deleteEmail(selectedEmail);
-        updateDetailView(emptyEmail);
+    private void connectToSocket() throws  IOException {
+        String nomeHost = InetAddress.getLocalHost().getHostName();
+
+        socket = new Socket(nomeHost, 8189);
+        socket.setSoTimeout(3000);
+        outputStream = new ObjectOutputStream(socket.getOutputStream());
+        outputStream.flush();
+        inputStream = new ObjectInputStream(socket.getInputStream());
     }
 
-     /**
-     * Mostra la mail selezionata nella vista
-     */
-    protected void showSelectedEmail(MouseEvent mouseEvent) {
-        Email email = lstEmails.getSelectionModel().getSelectedItem();
-
-        selectedEmail = email;
-        updateDetailView(email);
-    }
-
-     /**
-     * Aggiorna la vista con la mail selezionata
-     */
-    protected void updateDetailView(Email email) {
-        if(email != null) {
-            lblFrom.setText(email.getSender());
-            lblTo.setText(String.join(", ", email.getReceivers()));
-            lblSubject.setText(email.getSubject());
-            txtEmailContent.setText(email.getText());
+    private void closeSocketConnection() throws IOException {
+        if(socket != null){
+            outputStream.close();
+            inputStream.close();
+            socket.close();
         }
     }
+
+    private Communication sendCommunication (Communication c) throws IOException, ClassNotFoundException {
+        outputStream.writeObject(c);
+        return  (Communication) inputStream.readObject();
+
+    }
+
+    public void firstConnection(String email) throws IOException, ClassNotFoundException {
+        this.connectToSocket();
+        /* Connection: prende tutte le email ricevute, e setta il content delle email ricevute */
+        Communication connection = new Communication("connection",new BaseBody(email));
+        Communication response = sendCommunication(connection);
+        ArrayList<ArrayList<EmailBody>> emails = ((ConnectionBody)(response.getBody())).getEmails();
+        clientModel.setInboxContent(emails.get(0));
+        clientModel.setSentContent(emails.get(1));
+        clientModel.setBinContent(emails.get(2));
+        this.closeSocketConnection();
+    }
+
+
+
 
 }
