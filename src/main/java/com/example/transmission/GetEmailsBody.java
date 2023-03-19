@@ -1,0 +1,22 @@
+package com.example.emailclientmain.bean;
+
+import java.sql.Timestamp;
+import java.util.Date;
+
+public class GetEmailsBody extends BaseBody{
+
+    private Timestamp timestamp;
+
+    public GetEmailsBody(String email,Timestamp timestamp) {
+        super(email);
+        this.timestamp = timestamp;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String date) {
+        this.timestamp = new Timestamp(new Date(date).getTime());
+    }
+}
