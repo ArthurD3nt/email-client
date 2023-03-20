@@ -26,11 +26,13 @@ public class BoxButtonsController {
     private ClientModel clientModel;
 
     private Parent listView;
-    public void loadController(ClientModel clientModel, BorderPane root, Parent listView) {
+    private Parent writeView;
+    public void loadController(ClientModel clientModel, BorderPane root, Parent listView,Parent writeView) {
         this.root = root;
         emailLabel.textProperty().bind(clientModel.emailAddressProperty());
         this.clientModel = clientModel;
         this.listView = listView;
+        this.writeView = writeView;
     }
 
     @FXML
@@ -40,12 +42,9 @@ public class BoxButtonsController {
        Button button = (Button)actionEvent.getSource();
        stage.setTitle(button.getText());
 
-       FXMLLoader write = new FXMLLoader(EmailClientMain.class.getResource("write.fxml"));
-
-
        switch(button.getText()){
            case "SCRIVI":
-               root.setCenter(write.load());
+               root.setCenter(this.writeView);
                break;
            case "IN ARRIVO":
                root.setCenter(this.listView);

@@ -66,6 +66,7 @@ public class ClientModel {
             this.setCurrentEmails();
         }
     }
+
     public void setBinContent(ArrayList<EmailBody> bin) {
         this.binContent.addAll(bin);
         if(textView.getValue().equals("bin")) {

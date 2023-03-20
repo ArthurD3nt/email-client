@@ -58,7 +58,17 @@ public class ClientController {
         this.closeSocketConnection();
     }
 
-
+    public void sendEmail(EmailBody email) throws IOException, ClassNotFoundException {
+        this.connectToSocket();
+       Communication communication = new Communication("send_email", email);
+       Communication response = sendCommunication(communication);
+       if(response.getAction().equals("emails_saved")){
+           ArrayList emails = new ArrayList<>();
+           emails.add(email);
+           clientModel.setSentContent(emails);
+       }
+        this.closeSocketConnection();
+    }
 
 
 }

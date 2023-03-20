@@ -26,11 +26,16 @@ public class MainController {
 
     private Parent listview;
 
+    private Parent writeView;
+
     private ClientModel clientModel;
 
     private BoxButtonsController buttonsController;
 
     private ListViewController listViewController;
+
+    private WriteController writeController;
+
     @FXML
     public void loadController(ActionEvent actionEvent) {
 
@@ -54,13 +59,18 @@ public class MainController {
             root.setCenter(this.listview);
             listViewController.loadController(clientModel);
 
-            buttonsController.loadController(clientModel, root, this.listview);
 
             /* Chiamo il server tramite client controller per fare la connessione */
             ClientController clientController = new ClientController(clientModel);
             clientController.firstConnection(loginTextField.getText());
 
+            /* Carico l'xml della write delle email*/
+            FXMLLoader writeView = new FXMLLoader(EmailClientMain.class.getResource("write.fxml"));
+            this.writeView = writeView.load();
+            writeController = writeView.getController();
+            writeController.loadWriteController(clientModel, clientController);
 
+            buttonsController.loadController(clientModel, root, this.listview, this.writeView);
         }
         catch (IOException e){
             System.out.println(e);

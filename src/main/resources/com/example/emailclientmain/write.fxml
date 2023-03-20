@@ -9,16 +9,16 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" spacing="5.0" style="-fx-background-color: #203d75;" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:controller="com.example.emailclientmain.controller.WriteController" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" spacing="5.0" style="-fx-background-color: #203d75;" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextField promptText="Destinatari" style="-fx-border-color: transparent;" />
+      <TextField fx:id="receivers" promptText="Destinatari" style="-fx-border-color: transparent;" />
       <Separator prefWidth="200.0" />
-      <TextField promptText="Oggetto" />
+      <TextField fx:id="subject" promptText="Oggetto" />
       <Separator prefWidth="200.0" />
-      <TextArea maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="messaggio" />
+      <TextArea fx:id="message" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="messaggio" />
       <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Invia" />
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Invia" onAction="#sendEmail"/>
          </children>
       </HBox>
    </children>
