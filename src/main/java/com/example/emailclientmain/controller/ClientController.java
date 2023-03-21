@@ -59,7 +59,7 @@ public class ClientController {
     }
 
     public void sendEmail(EmailBody email) throws IOException, ClassNotFoundException {
-        this.connectToSocket();
+       this.connectToSocket();
        Communication communication = new Communication("send_email", email);
        Communication response = sendCommunication(communication);
        if(response.getAction().equals("emails_saved")){

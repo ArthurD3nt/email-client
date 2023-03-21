@@ -19,8 +19,6 @@ public class MainController {
     public TextField loginTextField;
     @FXML
     public BorderPane root;
-    @FXML
-    public ListView listviewEmail;
 
     private Stage stage;
 
@@ -40,7 +38,6 @@ public class MainController {
     public void loadController(ActionEvent actionEvent) {
 
         try{
-
             /*recupero finestra tramite id e setto un nuovo titolo*/
             stage = (Stage) root.getScene().getWindow();
             stage.setTitle("client mail");
@@ -57,7 +54,7 @@ public class MainController {
             this.listview = listview.load();
             listViewController = listview.getController();
             root.setCenter(this.listview);
-            listViewController.loadController(clientModel);
+            listViewController.loadController(clientModel,root);
 
 
             /* Chiamo il server tramite client controller per fare la connessione */

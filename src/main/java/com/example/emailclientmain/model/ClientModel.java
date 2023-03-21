@@ -38,7 +38,7 @@ public class ClientModel {
         this.textView = new SimpleStringProperty("received");
 
         /*Inserisco un listener per cambiare currentEmails*/
-      this.textViewProperty().addListener( (observable, oldValue, newValue) -> this.setCurrentEmails());
+        this.textViewProperty().addListener( (observable, oldValue, newValue) -> this.setCurrentEmails());
 
     }
 
@@ -48,7 +48,7 @@ public class ClientModel {
 
     public void setCurrentEmails() {
         this.currentEmails.clear();
-        this.currentEmails.setAll( textView.getValue().equals("received") ? inboxContent :
+        this.currentEmails.setAll(textView.getValue().equals("received") ? inboxContent :
                     textView.getValue().equals("sent") ? sentContent : binContent);
 
     }
