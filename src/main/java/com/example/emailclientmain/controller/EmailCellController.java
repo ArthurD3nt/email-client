@@ -27,6 +27,8 @@ public class EmailCellController extends ListCell<EmailBody> {
     private Parent showEmailView;
     private ShowEmailController showEmailController;
 
+    private EmailBody email;
+
     public EmailCellController(ClientModel clientModel, ListView listviewEmail, Parent showEmailView, BorderPane root, ShowEmailController showEmailController) throws IOException {
         this.showEmailView = showEmailView;
         this.root = root;
@@ -38,6 +40,7 @@ public class EmailCellController extends ListCell<EmailBody> {
 
         itemProperty().addListener((obs, oldValue, newValue) -> {   
             // Empty cell
+            this.email = newValue;
             if (newValue == null) {
                 return;
             }
@@ -59,12 +62,13 @@ public class EmailCellController extends ListCell<EmailBody> {
              */
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             
-            listviewEmail.setOnMouseClicked(mouseEvent -> {
-                showSelectedEmail(mouseEvent, newValue);
-            });
+            // delete this listener
+            //deleteListener();
         });
         
-
+        setOnMouseClicked(mouseEvent -> {
+            showSelectedEmail(mouseEvent, email);
+        });
     }
 
     private void showSelectedEmail(MouseEvent mouseEvent, EmailBody email) {
