@@ -61,9 +61,6 @@ public class EmailCellController extends ListCell<EmailBody> {
              * }
              */
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-            
-            // delete this listener
-            //deleteListener();
         });
         
         setOnMouseClicked(mouseEvent -> {
@@ -72,11 +69,8 @@ public class EmailCellController extends ListCell<EmailBody> {
     }
 
     private void showSelectedEmail(MouseEvent mouseEvent, EmailBody email) {
-        System.out.println("Cliccato");
-        System.out.println(mouseEvent);
-        System.out.println(email.toString());
         root.setCenter(showEmailView);
-        showEmailController.showEmail(email);
+        this.showEmailController.showEmail(email);
     }
     
 

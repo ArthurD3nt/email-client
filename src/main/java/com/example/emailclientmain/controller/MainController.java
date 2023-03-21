@@ -48,6 +48,9 @@ public class MainController {
 
             clientModel = new ClientModel(loginTextField.getText());
 
+            /* Istanzio un nuovo clientController*/
+            ClientController clientController = new ClientController(clientModel);
+
             /* Carico l'xml dei bottoni a sinistra*/
             FXMLLoader boxButtons = new FXMLLoader(EmailClientMain.class.getResource("box-buttons.fxml"));
             root.setLeft(boxButtons.load());
@@ -56,7 +59,7 @@ public class MainController {
             FXMLLoader showEmail = new FXMLLoader(EmailClientMain.class.getResource("showEmail.fxml"));
             this.showEmailView = showEmail.load();
             this.showEmailController = showEmail.getController();
-            showEmailController.inizializeController(clientModel);
+            showEmailController.inizializeController(clientModel, clientController);
 
             /* Carico l'xml delle email che starà al centro*/
             FXMLLoader listview = new FXMLLoader(EmailClientMain.class.getResource("listview.fxml"));
@@ -65,9 +68,7 @@ public class MainController {
             root.setCenter(this.listview);
             listViewController.loadController(clientModel,root,this.showEmailView, this.showEmailController);
 
-
             /* Chiamo il server tramite client controller per fare la connessione */
-            ClientController clientController = new ClientController(clientModel);
             clientController.firstConnection(loginTextField.getText());
 
             /* Carico l'xml della write delle email*/

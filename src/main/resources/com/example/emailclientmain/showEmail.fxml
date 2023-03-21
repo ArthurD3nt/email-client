@@ -19,7 +19,7 @@
          <children>
             <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Rispondi" />
             <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Rinspondi a tutti" />
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Cestina" />
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Cestina" onAction="#moveEmailToBin"/>
          </children>
       </HBox>
    </children>

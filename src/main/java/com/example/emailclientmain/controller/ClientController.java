@@ -2,6 +2,7 @@ package com.example.emailclientmain.controller;
 
 import com.example.emailclientmain.model.ClientModel;
 import com.example.transmission.*;
+import javafx.collections.ObservableList;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -67,6 +68,37 @@ public class ClientController {
            emails.add(email);
            clientModel.setSentContent(emails);
        }
+        this.closeSocketConnection();
+    }
+
+    public void moveToBin(String id, String email) throws IOException, ClassNotFoundException {
+        this.connectToSocket();
+        BinBody bin = new BinBody(id, email);
+        Communication communication =  new Communication("bin", bin);
+        Communication response =  sendCommunication(communication);
+        EmailBody emailBody = null;
+
+        if(response.getAction().equals("bin_ok")){
+            ObservableList<EmailBody> inboxContent =  clientModel.getInboxContent();
+            for(int i = 0; i < inboxContent.size(); i++ ) {
+                if (inboxContent.get(i).getId().equals(id)) {
+                    emailBody = inboxContent.get(i);
+                    inboxContent.remove(i);
+                    break;
+                }
+            }
+
+            if(emailBody != null){
+                ArrayList emails = new ArrayList<>();
+                emails.add(emailBody);
+                clientModel.setBinContent(emails);
+                clientModel.setTextView("received");
+                this.clientModel.setCurrentEmails();
+            }
+            else {
+                System.out.println("rotto");
+            }
+        }
         this.closeSocketConnection();
     }
 

@@ -74,6 +74,17 @@ public class ClientModel {
         }
     }
 
+    public ObservableList<EmailBody> getInboxContent() {
+        return inboxContent;
+    }
+
+    public ObservableList<EmailBody> getSentContent() {
+        return sentContent;
+    }
+
+    public ObservableList<EmailBody> getBinContent() {
+        return binContent;
+    }
 
     public StringProperty emailAddressProperty() {
         return emailAddress;
