@@ -8,6 +8,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -22,8 +23,14 @@ public class ListViewController {
     @FXML
     public BorderPane root;
 
+    private Parent showEmailView;
 
-    public void loadController(ClientModel clientModel, BorderPane root){
+    private ShowEmailController ShowEmailController;
+
+    public void loadController(ClientModel clientModel, BorderPane root, Parent showEmailView, ShowEmailController ShowEmailController){
+        this.ShowEmailController = ShowEmailController;
+        
+        this.showEmailView = showEmailView;
 
         this.root = root;
 
@@ -31,17 +38,17 @@ public class ListViewController {
             listviewEmail.itemsProperty().setValue(value.getList());
         });
 
-        listviewEmail.setOnMouseClicked(mouseEvent -> {
-            try {
-                showSelectedEmail(mouseEvent);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        //listviewEmail.setOnMouseClicked(mouseEvent -> {
+        //    try {
+        //        showSelectedEmail(mouseEvent);
+        //    } catch (IOException e) {
+        //        throw new RuntimeException(e);
+        //    }
+        //});
 
         listviewEmail.setCellFactory((listView)-> {
             try {
-                return new EmailCellController(clientModel, listviewEmail);
+                return new EmailCellController(clientModel, listviewEmail, showEmailView, root, ShowEmailController);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -49,8 +56,7 @@ public class ListViewController {
     }
 
     private void showSelectedEmail(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader showEmail = new FXMLLoader(EmailClientMain.class.getResource("showEmail.fxml"));
-        root.setCenter(showEmail.load());
+        root.setCenter(this.showEmailView);
     }
 
 

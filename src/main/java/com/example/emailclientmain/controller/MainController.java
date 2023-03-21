@@ -26,6 +26,8 @@ public class MainController {
 
     private Parent writeView;
 
+    private Parent showEmailView; 
+
     private ClientModel clientModel;
 
     private BoxButtonsController buttonsController;
@@ -33,6 +35,8 @@ public class MainController {
     private ListViewController listViewController;
 
     private WriteController writeController;
+
+    private ShowEmailController showEmailController;
 
     @FXML
     public void loadController(ActionEvent actionEvent) {
@@ -49,12 +53,17 @@ public class MainController {
             root.setLeft(boxButtons.load());
             buttonsController = boxButtons.getController();
 
+            FXMLLoader showEmail = new FXMLLoader(EmailClientMain.class.getResource("showEmail.fxml"));
+            this.showEmailView = showEmail.load();
+            this.showEmailController = showEmail.getController();
+            showEmailController.inizializeController(clientModel);
+
             /* Carico l'xml delle email che starà al centro*/
             FXMLLoader listview = new FXMLLoader(EmailClientMain.class.getResource("listview.fxml"));
             this.listview = listview.load();
             listViewController = listview.getController();
             root.setCenter(this.listview);
-            listViewController.loadController(clientModel,root);
+            listViewController.loadController(clientModel,root,this.showEmailView, this.showEmailController);
 
 
             /* Chiamo il server tramite client controller per fare la connessione */
