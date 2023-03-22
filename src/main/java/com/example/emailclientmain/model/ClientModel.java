@@ -67,6 +67,13 @@ public class ClientModel {
         }
     }
 
+    public void setNewEmailSentContent(EmailBody sent) {
+        this.sentContent.add(0,sent);
+        if(textView.getValue().equals("sent")) {
+            this.setCurrentEmails();
+        }
+    }
+
     public void setBinContent(ArrayList<EmailBody> bin) {
         this.binContent.addAll(bin);
         if(textView.getValue().equals("bin")) {

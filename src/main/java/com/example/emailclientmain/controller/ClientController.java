@@ -10,6 +10,8 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 
 
@@ -50,10 +52,15 @@ public class ClientController {
 
     public void firstConnection(String email) throws IOException, ClassNotFoundException {
         this.connectToSocket();
-        /* Connection: prende tutte le email ricevute, e setta il content delle email ricevute */
         Communication connection = new Communication("connection",new BaseBody(email));
         Communication response = sendCommunication(connection);
         ArrayList<ArrayList<EmailBody>> emails = ((ConnectionBody)(response.getBody())).getEmails();
+
+        /* Faccio il reverse per avere le email in ordine di orario */
+        Collections.reverse(emails.get(0));
+        Collections.reverse(emails.get(1));
+        Collections.reverse(emails.get(2));
+
         clientModel.setInboxContent(emails.get(0));
         clientModel.setSentContent(emails.get(1));
         clientModel.setBinContent(emails.get(2));
@@ -65,21 +72,20 @@ public class ClientController {
        Communication communication = new Communication("send_email", email);
        Communication response = sendCommunication(communication);
        if(response.getAction().equals("emails_saved")){
-           ArrayList emails = new ArrayList<>();
-           emails.add(email);
-           clientModel.setSentContent(emails);
+           clientModel.setNewEmailSentContent(email);
        }
         this.closeSocketConnection();
     }
 
     public void moveToBin(String id, String email) throws IOException, ClassNotFoundException {
         this.connectToSocket();
+        EmailBody emailBody = null;
         BinBody bin = new BinBody(id, email);
         Communication communication =  new Communication("bin", bin);
         Communication response =  sendCommunication(communication);
-        EmailBody emailBody = null;
+        BooleanBody responseBody = (BooleanBody)response.getBody();
 
-        if(response.getAction().equals("bin_ok")){
+        if(response.getAction().equals("bin_ok") && responseBody.isResult()){
             ObservableList<EmailBody> inboxContent =  clientModel.getInboxContent();
             for(int i = 0; i < inboxContent.size(); i++ ) {
                 if (inboxContent.get(i).getId().equals(id)) {
@@ -97,7 +103,7 @@ public class ClientController {
                 this.clientModel.setCurrentEmails();
             }
             else {
-                System.out.println("rotto");
+                System.out.println("rotto: moveToBin"); //TODO
             }
         }
         this.closeSocketConnection();
@@ -110,11 +116,11 @@ public class ClientController {
         Communication response = sendCommunication(request);
         BooleanBody responseBody = (BooleanBody)response.getBody();
 
-        System.out.println(responseBody.isResult());
-        System.out.println(response.getAction());
-
         if(response.getAction().equals("delete_permanently_ok") && responseBody.isResult()){
             this.clientModel.removeBinContent();
+        }
+        else {
+            System.out.println("rotto: deleteAllEmails"); //TODO
         }
         this.closeSocketConnection();
     }

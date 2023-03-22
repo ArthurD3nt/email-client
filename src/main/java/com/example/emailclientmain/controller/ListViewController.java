@@ -25,13 +25,9 @@ public class ListViewController {
     @FXML
     public Button deleteAll;
 
-    private Parent showEmailView;
-
-    private ShowEmailController ShowEmailController;
 
     public void loadController(ClientModel clientModel, BorderPane root, Parent showEmailView, ShowEmailController ShowEmailController, ClientController clientController){
-        this.ShowEmailController = ShowEmailController;
-        this.showEmailView = showEmailView;
+       
         this.root = root;
         this.clientController = clientController;
 

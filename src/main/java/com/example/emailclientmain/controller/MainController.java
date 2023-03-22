@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -52,7 +51,7 @@ public class MainController {
             ClientController clientController = new ClientController(clientModel);
 
             /* Carico l'xml dei bottoni a sinistra*/
-            FXMLLoader boxButtons = new FXMLLoader(EmailClientMain.class.getResource("box-buttons.fxml"));
+            FXMLLoader boxButtons = new FXMLLoader(EmailClientMain.class.getResource("boxButtons.fxml"));
             root.setLeft(boxButtons.load());
             buttonsController = boxButtons.getController();
 

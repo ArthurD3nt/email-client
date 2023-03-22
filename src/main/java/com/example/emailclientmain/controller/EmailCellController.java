@@ -14,6 +14,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class EmailCellController extends ListCell<EmailBody> {
 
@@ -23,6 +25,9 @@ public class EmailCellController extends ListCell<EmailBody> {
     public BorderPane root;
     @FXML
     private Label text;
+
+    @FXML
+    private Label time;
     private ClientModel clientModel;
     private Parent showEmailView;
     private ShowEmailController showEmailController;
@@ -33,7 +38,7 @@ public class EmailCellController extends ListCell<EmailBody> {
         this.showEmailView = showEmailView;
         this.root = root;
         this.showEmailController = showEmailController;
-        FXMLLoader emailCell = new FXMLLoader(EmailClientMain.class.getResource("cella-email.fxml"));
+        FXMLLoader emailCell = new FXMLLoader(EmailClientMain.class.getResource("cellEmail.fxml"));
         emailCell.setController(this);
         emailCell.setRoot(this);
         emailCell.load();
@@ -52,7 +57,15 @@ public class EmailCellController extends ListCell<EmailBody> {
             .substring(0, 45) + "..."
             : (newValue.getSubject() + " - " + newValue.getText().replace("\n", ""));
             this.text.setText(text);
-            
+
+            Date date = new Date(newValue.getTimestamp().getTime());
+            if(new Date().getDay() == date.getDay())
+                this.time.setText(date.getHours() + ":" + date.getMinutes());
+            else {
+                SimpleDateFormat simpleFormat = new SimpleDateFormat("MMMM");
+                String strMonth= simpleFormat.format(new Date());
+                this.time.setText(date.getDate() + " " + strMonth);
+            }
             /*
              * if(newValue.getBin()){
              * if(!getStyleClass().contains("toRead")) getStyleClass().add("toRead");
