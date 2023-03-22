@@ -22,8 +22,11 @@ public class ClientController {
 
     private ClientModel clientModel;
 
-    public ClientController(ClientModel clientModel) {
+    private BoxButtonsController buttonsController;
+
+    public ClientController(ClientModel clientModel, BoxButtonsController buttonsController) {
         this.clientModel = clientModel;
+        this.buttonsController = buttonsController;
     }
 
     private void connectToSocket() throws  IOException {
@@ -73,6 +76,7 @@ public class ClientController {
        Communication response = sendCommunication(communication);
        if(response.getAction().equals("emails_saved")){
            clientModel.setNewEmailSentContent(email);
+           this.buttonsController.loadPage("INVIATE");
        }
         this.closeSocketConnection();
     }

@@ -47,13 +47,12 @@ public class MainController {
 
             clientModel = new ClientModel(loginTextField.getText());
 
-            /* Istanzio un nuovo clientController*/
-            ClientController clientController = new ClientController(clientModel);
-
             /* Carico l'xml dei bottoni a sinistra*/
             FXMLLoader boxButtons = new FXMLLoader(EmailClientMain.class.getResource("boxButtons.fxml"));
             root.setLeft(boxButtons.load());
             buttonsController = boxButtons.getController();
+
+            ClientController clientController = new ClientController(clientModel, buttonsController);
 
             /* Carico l'xml della write delle email*/
             FXMLLoader writeView = new FXMLLoader(EmailClientMain.class.getResource("write.fxml"));
@@ -80,6 +79,7 @@ public class MainController {
             clientController.firstConnection(loginTextField.getText());
 
             buttonsController.loadController(clientModel, root, this.listview, this.writeView);
+
         }
         catch (IOException e){
             System.out.println(e);

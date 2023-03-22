@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class EmailCellController extends ListCell<EmailBody> {
@@ -58,13 +59,24 @@ public class EmailCellController extends ListCell<EmailBody> {
             : (newValue.getSubject() + " - " + newValue.getText().replace("\n", ""));
             this.text.setText(text);
 
+            /* Data di oggi*/
+            Date dateToday = new Date();
+            Calendar calendarToday = Calendar.getInstance();
+            calendarToday.setTime(dateToday);
+
             Date date = new Date(newValue.getTimestamp().getTime());
-            if(new Date().getDay() == date.getDay())
-                this.time.setText(date.getHours() + ":" + date.getMinutes());
+            Calendar dateEmail = Calendar.getInstance();
+            dateEmail.setTime(date);
+
+            if(dateEmail.get(Calendar.DAY_OF_MONTH) == calendarToday.get(Calendar.DAY_OF_MONTH)) {
+                SimpleDateFormat simpleFormat = new SimpleDateFormat("HH:mm");
+                String hourMinute = simpleFormat.format(dateEmail.getTime());
+                this.time.setText(hourMinute);
+            }
             else {
                 SimpleDateFormat simpleFormat = new SimpleDateFormat("MMMM");
-                String strMonth= simpleFormat.format(new Date());
-                this.time.setText(date.getDate() + " " + strMonth);
+                String strMonth = simpleFormat.format(dateEmail.getTime());
+                this.time.setText(dateEmail.get(Calendar.DAY_OF_MONTH) + " " + strMonth);
             }
             /*
              * if(newValue.getBin()){

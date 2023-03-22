@@ -62,6 +62,25 @@ public class BoxButtonsController {
 
     }
 
+    public void loadPage(String button){
+        switch(button){
+            case "SCRIVI":
+                root.setCenter(this.writeView);
+                break;
+            case "IN ARRIVO":
+                root.setCenter(this.listView);
+                clientModel.setTextView("received");
+                break;
+            case "INVIATE":
+                root.setCenter(this.listView);
+                clientModel.setTextView("sent");
+                break;
+            case "CESTINO":
+                root.setCenter(this.listView);
+                clientModel.setTextView("bin");
+                break;
+        }
+    }
 }
 
 
