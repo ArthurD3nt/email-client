@@ -62,16 +62,19 @@ public class MainController {
             writeController = writeView.getController();
             writeController.loadWriteController(clientModel, clientController);
 
-            /* Carico l'xml per mostrare l'email*/
-            FXMLLoader showEmail = new FXMLLoader(EmailClientMain.class.getResource("showEmail.fxml"));
-            this.showEmailView = showEmail.load();
-            this.showEmailController = showEmail.getController();
-            showEmailController.inizializeController(clientModel, clientController, this.writeView, writeController, root);
-
             /* Carico l'xml delle email che starà al centro*/
             FXMLLoader listview = new FXMLLoader(EmailClientMain.class.getResource("listview.fxml"));
             this.listview = listview.load();
             listViewController = listview.getController();
+
+
+            /* Carico l'xml per mostrare l'email*/
+            FXMLLoader showEmail = new FXMLLoader(EmailClientMain.class.getResource("showEmail.fxml"));
+            this.showEmailView = showEmail.load();
+            this.showEmailController = showEmail.getController();
+            showEmailController.initializeController(clientModel, clientController, this.writeView, writeController, root, this.listview);
+
+            /* Setto al centro la view che contiene le email*/
             root.setCenter(this.listview);
             listViewController.loadController(clientModel,root,this.showEmailView, this.showEmailController);
 

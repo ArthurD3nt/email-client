@@ -34,17 +34,22 @@ public class ShowEmailController {
 
     private Parent writeView;
 
+    private Parent listView;
+
     private WriteController writeController;
 
     private BorderPane root;
 
+    private String oldView;
 
-    public void inizializeController(ClientModel clientModel, ClientController clientController, Parent writeView, WriteController writeController, BorderPane root) {
+
+    public void initializeController(ClientModel clientModel, ClientController clientController, Parent writeView, WriteController writeController, BorderPane root, Parent listView) {
         this.clientController = clientController;
         this.clientModel = clientModel;
         this.writeView = writeView;
         this.writeController = writeController;
         this.root = root;
+        this.listView = listView;
     }
 
     public void showEmail(EmailBody email) {
@@ -53,6 +58,7 @@ public class ShowEmailController {
         this.receivers.setText(email.getReceivers().toString().replace("[", "").replace("]",""));
         this.subject.setText(email.getSubject());
         this.message.setText(email.getText());
+        this.oldView = this.clientModel.getTextView();
     }
 
 
@@ -88,5 +94,11 @@ public class ShowEmailController {
         this.writeController.message.setText("\n---------------------------\n" + this.email.getText());
         root.setCenter(this.writeView);
 
+    }
+
+    public void closeShowEmail(ActionEvent actionEvent) {
+
+        this.root.setCenter(this.listView);
+        this.clientModel.setTextView(this.oldView);
     }
 }

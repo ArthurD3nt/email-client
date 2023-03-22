@@ -19,6 +19,7 @@
       <TextArea editable="false" fx:id="message" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="messaggio" />
       <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Chiudi" onAction="#closeShowEmail"/>
             <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Rispondi" onAction="#reply"/>
             <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Rispondi a tutti" onAction="#replyToAll"/>
             <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Cestina" onAction="#moveEmailToBin"/>
