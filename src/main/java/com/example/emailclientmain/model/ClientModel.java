@@ -74,6 +74,11 @@ public class ClientModel {
         }
     }
 
+    public void removeBinContent(){
+        this.binContent.clear();
+        this.setCurrentEmails();
+    }
+
     public ObservableList<EmailBody> getInboxContent() {
         return inboxContent;
     }

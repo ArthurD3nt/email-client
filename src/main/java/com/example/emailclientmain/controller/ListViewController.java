@@ -1,18 +1,15 @@
 package com.example.emailclientmain.controller;
 
-import com.example.emailclientmain.EmailClientMain;
 import com.example.emailclientmain.model.ClientModel;
 import com.example.transmission.EmailBody;
-import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -23,31 +20,39 @@ public class ListViewController {
     @FXML
     public BorderPane root;
 
+    public ClientController clientController;
+
+    @FXML
+    public Button deleteAll;
+
     private Parent showEmailView;
 
     private ShowEmailController ShowEmailController;
 
-    public void loadController(ClientModel clientModel, BorderPane root, Parent showEmailView, ShowEmailController ShowEmailController){
+    public void loadController(ClientModel clientModel, BorderPane root, Parent showEmailView, ShowEmailController ShowEmailController, ClientController clientController){
         this.ShowEmailController = ShowEmailController;
-        
         this.showEmailView = showEmailView;
-
         this.root = root;
+        this.clientController = clientController;
 
         clientModel.getCurrentEmails().addListener((ListChangeListener<EmailBody>)(value)-> {
+
+            if(clientModel.getTextView().equals("bin")) {
+                this.deleteAll.setVisible(true);
+                this.deleteAll.setManaged(true);
+            }
+            else {
+                this.deleteAll.setVisible(false);
+                this.deleteAll.setManaged(false);
+            }
+
             listviewEmail.itemsProperty().setValue(value.getList());
         });
 
-        //listviewEmail.setOnMouseClicked(mouseEvent -> {
-        //    try {
-        //        showSelectedEmail(mouseEvent);
-        //    } catch (IOException e) {
-        //        throw new RuntimeException(e);
-        //    }
-        //});
 
         listviewEmail.setCellFactory((listView)-> {
             try {
+                this.deleteAll.setVisible(true);
                 return new EmailCellController(clientModel, listviewEmail, showEmailView, root, ShowEmailController);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -55,9 +60,9 @@ public class ListViewController {
         });
     }
 
-    private void showSelectedEmail(MouseEvent mouseEvent) throws IOException {
-        root.setCenter(this.showEmailView);
+
+
+    public void deleteAllEmails(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+        this.clientController.deleteAllEmails();
     }
-
-
 }

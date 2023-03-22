@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 public class ClientController {
@@ -101,7 +102,20 @@ public class ClientController {
         }
         this.closeSocketConnection();
     }
-    
 
 
+    public void deleteAllEmails() throws IOException, ClassNotFoundException {
+        this.connectToSocket();
+        Communication request = new Communication("delete",new BaseBody(this.clientModel.emailAddressProperty().getValue()));
+        Communication response = sendCommunication(request);
+        BooleanBody responseBody = (BooleanBody)response.getBody();
+
+        System.out.println(responseBody.isResult());
+        System.out.println(response.getAction());
+
+        if(response.getAction().equals("delete_permanently_ok") && responseBody.isResult()){
+            this.clientModel.removeBinContent();
+        }
+        this.closeSocketConnection();
+    }
 }

@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 
-
-<BorderPane fx:controller="com.example.emailclientmain.controller.ListViewController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1" >
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.emailclientmain.controller.ListViewController">
+   <HBox alignment="TOP_LEFT" prefHeight="100.0" prefWidth="200.0" />
+   <top>
+      <Button alignment="TOP_LEFT" fx:id="deleteAll" mnemonicParsing="false" text="DELETE ALL" BorderPane.alignment="TOP_LEFT" onAction="#deleteAllEmails" />
+   </top>
    <center>
-      <ListView fx:id="listviewEmail" fixedCellSize="80.0" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: #203d75;" BorderPane.alignment="TOP_LEFT" />
+      <ListView fx:id="listviewEmail" fixedCellSize="80.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: #203d75;" BorderPane.alignment="TOP_LEFT" />
    </center>
 </BorderPane>

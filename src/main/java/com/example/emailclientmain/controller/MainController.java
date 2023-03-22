@@ -67,7 +67,6 @@ public class MainController {
             this.listview = listview.load();
             listViewController = listview.getController();
 
-
             /* Carico l'xml per mostrare l'email*/
             FXMLLoader showEmail = new FXMLLoader(EmailClientMain.class.getResource("showEmail.fxml"));
             this.showEmailView = showEmail.load();
@@ -76,7 +75,7 @@ public class MainController {
 
             /* Setto al centro la view che contiene le email*/
             root.setCenter(this.listview);
-            listViewController.loadController(clientModel,root,this.showEmailView, this.showEmailController);
+            listViewController.loadController(clientModel,root,this.showEmailView, this.showEmailController, clientController);
 
             /* Chiamo il server tramite client controller per fare la connessione */
             clientController.firstConnection(loginTextField.getText());
