@@ -2,6 +2,7 @@ package com.example.emailclientmain.controller;
 
 import com.example.emailclientmain.model.ClientModel;
 import com.example.emailclientmain.EmailClientMain;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -46,21 +48,28 @@ public class MainController {
             stage = (Stage) root.getScene().getWindow();
             stage.setTitle("client mail");
 
-            clientModel = new ClientModel(loginTextField.getText());
 
-            if(!clientModel.emailAddressProperty().get().matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")){
+            if(!loginTextField.getText().matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")){
                 Alert.AlertType alertType = Alert.AlertType.ERROR;
                 Alert alert = new Alert(alertType, "Email not valid");
-                alert.showAndWait();
+                Platform.runLater(()-> alert.showAndWait());
                 return;
-            }            
+            }
 
+            clientModel = new ClientModel(loginTextField.getText());
             /* Carico l'xml dei bottoni a sinistra*/
             FXMLLoader boxButtons = new FXMLLoader(EmailClientMain.class.getResource("boxButtons.fxml"));
             root.setLeft(boxButtons.load());
             buttonsController = boxButtons.getController();
 
+            /* Istanzio un nuovo ClientController*/
             ClientController clientController = new ClientController(clientModel, buttonsController);
+
+            stage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, event -> {
+                if (clientController != null){
+                    clientController.closeThreadPool();
+                }
+            });
 
             /* Carico l'xml della write delle email*/
             FXMLLoader writeView = new FXMLLoader(EmailClientMain.class.getResource("write.fxml"));
@@ -86,7 +95,7 @@ public class MainController {
             buttonsController.loadController(clientModel, root, this.listview, this.writeView);
            
             /* Chiamo il server tramite client controller per fare la connessione */
-            clientController.firstConnection(loginTextField.getText());
+            clientController.tryConnection(loginTextField.getText());
 
         }
         catch (IOException e){

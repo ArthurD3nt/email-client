@@ -1,9 +1,6 @@
 package com.example.emailclientmain.model;
 
 import com.example.transmission.EmailBody;
-import javafx.application.Platform;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -57,6 +54,13 @@ public class ClientModel {
         this.inboxContent.addAll(inbox);
         if(textView.getValue().equals("received")) {
           this.setCurrentEmails();
+        }
+    }
+
+    public void setNewEmailInboxContent(ArrayList<EmailBody> inbox){
+        this.inboxContent.addAll(0,inbox);
+        if(textView.getValue().equals("received")) {
+            this.setCurrentEmails();
         }
     }
 

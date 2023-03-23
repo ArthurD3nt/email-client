@@ -2,8 +2,6 @@ package com.example.emailclientmain.controller;
 
 import com.example.emailclientmain.model.ClientModel;
 import com.example.transmission.EmailBody;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -32,21 +30,22 @@ public class WriteController {
     }
 
     public void sendEmail(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
-        String[] parts = receivers.getText().split(", ");
-        ArrayList<String> receiversEmail = new ArrayList<>();
+         String[] parts = receivers.getText().split(", ");
+         ArrayList<String> receiversEmail = new ArrayList<>();
 
-        for(String s : parts){
-            if(!s.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")){
-                Alert.AlertType alertType = Alert.AlertType.ERROR;
-                Alert alert = new Alert(alertType, "Email: "+ s +" not valid");
-                alert.showAndWait();
-                return;
-            }
-            receiversEmail.add(s);
-        }
+         for(String s : parts){
+             if(!s.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")){
+                 Alert.AlertType alertType = Alert.AlertType.ERROR;
+                 Alert alert = new Alert(alertType, "Email: "+ s +" not valid");
+                 alert.showAndWait();
+                 return;
+             }
+             receiversEmail.add(s);
+         }
 
-        EmailBody email = new EmailBody(this.clientModel.emailAddressProperty().getValue(),receiversEmail,subject.getText(),message.getText());
+         EmailBody email = new EmailBody(this.clientModel.emailAddressProperty().getValue(),receiversEmail,subject.getText(),message.getText());
 
-        this.clientController.sendEmail(email);
+         this.clientController.sendEmail(email);
+
     }
 }
