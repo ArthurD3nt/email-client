@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -47,6 +48,13 @@ public class MainController {
 
             clientModel = new ClientModel(loginTextField.getText());
 
+            if(!clientModel.emailAddressProperty().get().matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")){
+                Alert.AlertType alertType = Alert.AlertType.ERROR;
+                Alert alert = new Alert(alertType, "Email not valid");
+                alert.showAndWait();
+                return;
+            }            
+
             /* Carico l'xml dei bottoni a sinistra*/
             FXMLLoader boxButtons = new FXMLLoader(EmailClientMain.class.getResource("boxButtons.fxml"));
             root.setLeft(boxButtons.load());
@@ -75,16 +83,14 @@ public class MainController {
             root.setCenter(this.listview);
             listViewController.loadController(clientModel,root,this.showEmailView, this.showEmailController, clientController);
 
+            buttonsController.loadController(clientModel, root, this.listview, this.writeView);
+           
             /* Chiamo il server tramite client controller per fare la connessione */
             clientController.firstConnection(loginTextField.getText());
 
-            buttonsController.loadController(clientModel, root, this.listview, this.writeView);
-
         }
         catch (IOException e){
-            System.out.println(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            System.out.println("Errore");
         }
 
 
