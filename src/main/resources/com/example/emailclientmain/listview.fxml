@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.emailclientmain.controller.ListViewController">
    <HBox alignment="TOP_LEFT" prefHeight="100.0" prefWidth="200.0" />
    <top>
-      <Button alignment="TOP_LEFT" fx:id="deleteAll" mnemonicParsing="false" text="DELETE ALL" BorderPane.alignment="TOP_LEFT" onAction="#deleteAllEmails" />
+      <Button fx:id="deleteAll" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteAllEmails" style="-fx-border-color: #fff; -fx-background-color: #fff;" text="Svuota il cestino adesso" textFill="#0066ff" BorderPane.alignment="CENTER" />
    </top>
    <center>
-      <ListView fx:id="listviewEmail" fixedCellSize="80.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: #203d75;" BorderPane.alignment="TOP_LEFT" />
+      <VBox>
+         <ListView fx:id="listviewEmail" fixedCellSize="80.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: #fff;" BorderPane.alignment="TOP_LEFT" />
+      </VBox>
    </center>
 </BorderPane>

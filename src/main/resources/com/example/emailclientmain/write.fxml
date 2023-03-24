@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox fx:controller="com.example.emailclientmain.controller.WriteController" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" spacing="5.0" style="-fx-background-color: #203d75;" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:controller="com.example.emailclientmain.controller.WriteController" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" spacing="5.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextField fx:id="receivers" promptText="Destinatari" style="-fx-border-color: transparent;" />
+      <TextField fx:id="receivers" promptText="Destinatari" />
       <Separator prefWidth="200.0" />
       <TextField fx:id="subject" promptText="Oggetto" />
       <Separator prefWidth="200.0" />
