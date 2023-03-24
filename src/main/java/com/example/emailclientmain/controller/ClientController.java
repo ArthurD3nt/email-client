@@ -46,7 +46,7 @@ public class ClientController {
         this.clientModel = clientModel;
         this.buttonsController = buttonsController;
         this.connected = false;
-        this.serverStatus = false;
+        this.serverStatus = true;
         this.showOneTimeAlert = false;
         threadPool = Executors.newFixedThreadPool(10);
     }
@@ -57,7 +57,7 @@ public class ClientController {
         alert.showAndWait();
     }
 
-    private void connectToSocket() {
+    private void connectToSocket()  {
         try {
             String nomeHost = InetAddress.getLocalHost().getHostName();
             socket = new Socket(nomeHost, 8189);
@@ -94,10 +94,8 @@ public class ClientController {
 
     public void tryConnection(String email){
         scheduler.scheduleAtFixedRate(() -> {
-            this.connectToSocket();
-            if(this.serverStatus == true)
-                firstConnection(email);
-            else {
+            firstConnection(email);
+            if(!this.serverStatus) {
                 if(showOneTimeAlert == false) {
                     Platform.runLater(() -> this.showAlert());
                     showOneTimeAlert = true;
@@ -191,9 +189,9 @@ public class ClientController {
                     if (emailBody != null) {
                         ArrayList emails = new ArrayList<>();
                         emails.add(emailBody);
-                        clientModel.setBinContent(emails);
-                        clientModel.setTextView("received");
-                        this.clientModel.setCurrentEmails();
+                        Platform.runLater(() -> clientModel.setBinContent(emails));
+                        Platform.runLater(() -> clientModel.setTextView("received"));
+                        Platform.runLater(() -> this.clientModel.setCurrentEmails());
                     } else {
                         System.out.println("rotto: moveToBin"); // TODO
                     }
@@ -219,7 +217,7 @@ public class ClientController {
                 BooleanBody responseBody = (BooleanBody) response.getBody();
 
                 if (response.getAction().equals("delete_permanently_ok") && responseBody.isResult()) {
-                    this.clientModel.removeBinContent();
+                    Platform.runLater(() -> this.clientModel.removeBinContent());
                 } else {
                     System.out.println("rotto: deleteAllEmails"); // TODO
                 }

@@ -1,9 +1,7 @@
 package com.example.emailclientmain.controller;
 
-import com.example.emailclientmain.EmailClientMain;
 import com.example.emailclientmain.model.ClientModel;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
