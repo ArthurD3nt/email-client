@@ -29,7 +29,7 @@ public class WriteController {
         this.clientController = clientController;
     }
 
-    public void sendEmail(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+    public void sendEmail(ActionEvent actionEvent){
          String[] parts = receivers.getText().split(", ");
          ArrayList<String> receiversEmail = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class WriteController {
 
          EmailBody email = new EmailBody(this.clientModel.emailAddressProperty().getValue(),receiversEmail,subject.getText(),message.getText());
 
-         this.clientController.sendEmail(email);
+        this.clientController.sendEmail(email);
 
     }
 }

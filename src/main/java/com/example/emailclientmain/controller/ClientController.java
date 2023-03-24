@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
@@ -35,12 +36,10 @@ public class ClientController {
     private boolean connected;
 
     private boolean serverStatus;
-    /* mettere variabile a true/false per lo status del server:
-        se true: il server è online
-        se false: il serve è morto e deve far vedere una sola volta il popup di errore
-    * */
 
+    private Timestamp timestamp;
     private boolean showOneTimeAlert;
+
 
     public ClientController(ClientModel clientModel, BoxButtonsController buttonsController) {
         this.clientModel = clientModel;
@@ -48,13 +47,18 @@ public class ClientController {
         this.connected = false;
         this.serverStatus = true;
         this.showOneTimeAlert = false;
+        this.timestamp = null;
         threadPool = Executors.newFixedThreadPool(10);
+
     }
 
     private void showAlert(){
-        Alert.AlertType alertType = Alert.AlertType.ERROR;
-        Alert alert = new Alert(alertType, "Errore nella connessione al server, riprova più tardi");
-        alert.showAndWait();
+        if(showOneTimeAlert == false) {
+            Alert.AlertType alertType = Alert.AlertType.ERROR;
+            Alert alert = new Alert(alertType, "Errore nella connessione al server, riprova più tardi");
+            alert.showAndWait();
+            showOneTimeAlert = true;
+        }
     }
 
     private void connectToSocket()  {
@@ -96,10 +100,7 @@ public class ClientController {
         scheduler.scheduleAtFixedRate(() -> {
             firstConnection(email);
             if(!this.serverStatus) {
-                if(showOneTimeAlert == false) {
-                    Platform.runLater(() -> this.showAlert());
-                    showOneTimeAlert = true;
-                }
+                Platform.runLater(() -> this.showAlert());
             }
         }, 0, 5, TimeUnit.SECONDS);
 
@@ -109,12 +110,17 @@ public class ClientController {
         threadPool.execute(()-> {
             try {
                  this.connectToSocket();
-                if (connected == true) {
-                    ObservableList<EmailBody> emailReceived = this.clientModel.getInboxContent();
-                    Communication connection = new Communication("get_new_emails", new GetEmailsBody(email, emailReceived.get(0).getTimestamp()));
+                 if (connected == true) {
+                     ObservableList<EmailBody> emailReceived = this.clientModel.getInboxContent();
+                    if(timestamp == null || timestamp.compareTo(emailReceived.get(0).getTimestamp()) < 0){
+                        this.timestamp = emailReceived.get(0).getTimestamp();
+                    }
+
+                    Communication connection = new Communication("get_new_emails", new GetEmailsBody(email, timestamp));
                     Communication response = sendCommunication(connection);
 
                     if (response == null) {
+                        Platform.runLater(() -> this.showAlert());
                         return;
                     }
 
@@ -124,27 +130,29 @@ public class ClientController {
                     Platform.runLater(()-> this.clientModel.setNewEmailInboxContent(emails));
 
                     return;
-                }
+                 }
 
-                Communication connection = new Communication("connection", new BaseBody(email));
-                Communication response = sendCommunication(connection);
+                 Communication connection = new Communication("connection", new BaseBody(email));
+                 Communication response = sendCommunication(connection);
 
-                if (response == null) {
+                 if (response == null) {
+                    Platform.runLater(() -> this.showAlert());
                     return;
-                }
+                 }
 
-                ArrayList<ArrayList<EmailBody>> emails = ((ConnectionBody) (response.getBody())).getEmails();
+                 ArrayList<ArrayList<EmailBody>> emails = ((ConnectionBody) (response.getBody())).getEmails();
 
-                /* FARE SU SERVER: Faccio il reverse per avere le email in ordine di orario */
-                Collections.reverse(emails.get(0));
-                Collections.reverse(emails.get(1));
-                Collections.reverse(emails.get(2));
+                 /* FARE SU SERVER: Faccio il reverse per avere le email in ordine di orario */
+                 Collections.reverse(emails.get(0));
+                 Collections.reverse(emails.get(1));
+                 Collections.reverse(emails.get(2));
 
-                Platform.runLater(()-> clientModel.setInboxContent(emails.get(0)));
-                Platform.runLater(()-> clientModel.setSentContent(emails.get(1)));
-                Platform.runLater(()-> clientModel.setBinContent(emails.get(2)));
-                this.connected = true;
-                this.closeSocketConnection();
+                 Platform.runLater(()-> clientModel.setInboxContent(emails.get(0)));
+                 Platform.runLater(()-> clientModel.setSentContent(emails.get(1)));
+                 Platform.runLater(()-> clientModel.setBinContent(emails.get(2)));
+
+                 this.connected = true;
+                 this.closeSocketConnection();
             } catch (IOException e) {
             }
         });
@@ -156,12 +164,20 @@ public class ClientController {
                 this.connectToSocket();
                 Communication communication = new Communication("send_email", email);
                 Communication response = sendCommunication(communication);
+
+                if(response == null) {
+                    Platform.runLater(() -> this.showAlert());
+                    return;
+                }
+
                 if (response.getAction().equals("emails_saved")) {
                     Platform.runLater(()-> clientModel.setNewEmailSentContent(email));
                     Platform.runLater(()-> this.buttonsController.loadPage("INVIATE"));
                 }
                 this.closeSocketConnection();
+
             } catch (IOException e) {
+                Platform.runLater(() -> this.showAlert());
             }
         });
     }
@@ -211,9 +227,9 @@ public class ClientController {
                 Communication request = new Communication("delete",
                         new BaseBody(this.clientModel.emailAddressProperty().getValue()));
                 Communication response = sendCommunication(request);
-                if (response == null) {
-                    return;
-                }
+
+                if (response == null) { Platform.runLater(() -> this.showAlert()); }
+
                 BooleanBody responseBody = (BooleanBody) response.getBody();
 
                 if (response.getAction().equals("delete_permanently_ok") && responseBody.isResult()) {

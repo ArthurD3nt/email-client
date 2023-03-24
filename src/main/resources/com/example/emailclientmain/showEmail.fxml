@@ -5,24 +5,64 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox fx:controller="com.example.emailclientmain.controller.ShowEmailController" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" spacing="5.0" style="-fx-background-color: #203d75;" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" spacing="5.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.emailclientmain.controller.ShowEmailController">
    <children>
-      <TextField editable="false" fx:id="sender" promptText="Mittente" style="-fx-border-color: transparent;" />
-      <Separator prefWidth="200.0" />
-      <TextField editable="false" fx:id="receivers" promptText="Destinatari" style="-fx-border-color: transparent;" />
-      <Separator prefWidth="200.0" />
-      <TextField editable="false" fx:id="subject" promptText="Oggetto" />
-      <Separator prefWidth="200.0" />
-      <TextArea editable="false" fx:id="message" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="messaggio" />
-      <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="10.0" prefWidth="193.0">
          <children>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Chiudi" onAction="#closeShowEmail"/>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Rispondi" onAction="#reply"/>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Rispondi a tutti" onAction="#replyToAll"/>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Cestina" onAction="#moveEmailToBin"/>
+            <Button alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#closeShowEmail" style="-fx-background-color: #fff; -fx-border-color: #fff;">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@./images/arrow.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#moveEmailToBin" style="-fx-background-color: #fff; -fx-border-color: #fff;">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@./images/bin.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <TextField fx:id="sender" editable="false" promptText="Mittente" />
+      <Separator prefWidth="200.0" />
+      <TextField fx:id="receivers" editable="false" promptText="Destinatari" style="-fx-border-color: transparent;" />
+      <Separator prefWidth="200.0" />
+      <TextField fx:id="subject" editable="false" promptText="Oggetto" />
+      <Separator prefWidth="200.0" />
+      <TextArea fx:id="message" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="messaggio" />
+      <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="200.0">
+         <children>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#reply" style="-fx-background-color: #fff; -fx-border-color: #fff;">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@./images/reply.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#replyToAll" style="-fx-background-color: #fff; -fx-border-color: #fff;">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@./images/replyAll.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </HBox>
    </children>
