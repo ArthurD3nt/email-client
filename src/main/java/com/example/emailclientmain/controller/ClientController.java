@@ -173,6 +173,7 @@ public class ClientController {
 
                 if (response.getAction().equals("emails_saved")) {
                     Platform.runLater(()-> clientModel.setNewEmailSentContent(email));
+                    Platform.runLater(() -> this.buttonsController.stage.setTitle("INVIATE"));
                     Platform.runLater(()-> this.buttonsController.loadPage("INVIATE"));
                 }
                 this.closeSocketConnection();
