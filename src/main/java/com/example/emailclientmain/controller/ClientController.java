@@ -211,6 +211,7 @@ public class ClientController {
                     } else {
                         System.out.println("rotto: moveToBin"); // TODO
                     }
+                    Platform.runLater(()-> this.buttonsController.loadPage("CESTINO"));
                 }
 
                 this.closeSocketConnection();
