@@ -5,6 +5,7 @@ import com.example.transmission.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -211,6 +212,8 @@ public class ClientController {
                     } else {
                         System.out.println("rotto: moveToBin"); // TODO
                     }
+                    /* change title to  cestino*/
+                    Platform.runLater(() -> this.buttonsController.stage.setTitle("CESTINO"));
                     Platform.runLater(()-> this.buttonsController.loadPage("CESTINO"));
                 }
 
