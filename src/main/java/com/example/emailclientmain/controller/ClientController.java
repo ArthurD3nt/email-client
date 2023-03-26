@@ -1,6 +1,7 @@
 package com.example.emailclientmain.controller;
 
 import com.example.emailclientmain.model.ClientModel;
+import com.example.transmission.EmailBody;
 import com.example.transmission.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -10,11 +11,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream.GetField;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -40,6 +43,7 @@ public class ClientController {
 
     private Timestamp timestamp;
     private boolean showOneTimeAlert;
+    private List<String> emailList;
 
 
     public ClientController(ClientModel clientModel, BoxButtonsController buttonsController) {
@@ -49,14 +53,15 @@ public class ClientController {
         this.serverStatus = true;
         this.showOneTimeAlert = false;
         this.timestamp = null;
+        this.emailList = new ArrayList<>();
         threadPool = Executors.newFixedThreadPool(10);
 
     }
 
-    private void showAlert(){
+    private void showAlert(String msg){
         if(showOneTimeAlert == false) {
             Alert.AlertType alertType = Alert.AlertType.ERROR;
-            Alert alert = new Alert(alertType, "Errore nella connessione al server, riprova più tardi");
+            Alert alert = new Alert(alertType, msg);
             alert.showAndWait();
             showOneTimeAlert = true;
         }
@@ -101,7 +106,7 @@ public class ClientController {
         scheduler.scheduleAtFixedRate(() -> {
             firstConnection(email);
             if(!this.serverStatus) {
-                Platform.runLater(() -> this.showAlert());
+                Platform.runLater(() -> this.showAlert("Errore nella connessione al server, riprova più tardi"));
             }
         }, 0, 5, TimeUnit.SECONDS);
 
@@ -121,7 +126,7 @@ public class ClientController {
                     Communication response = sendCommunication(connection);
 
                     if (response == null) {
-                        Platform.runLater(() -> this.showAlert());
+                        Platform.runLater(() -> this.showAlert("Errore nella connessione al server, riprova più tardi"));
                         return;
                     }
 
@@ -137,7 +142,7 @@ public class ClientController {
                  Communication response = sendCommunication(connection);
 
                  if (response == null) {
-                    Platform.runLater(() -> this.showAlert());
+                    Platform.runLater(() -> this.showAlert("Errore nella connessione al server, riprova più tardi"));
                     return;
                  }
 
@@ -162,12 +167,13 @@ public class ClientController {
     public void sendEmail(EmailBody email) {
         threadPool.execute(()-> {
             try {
+                this.emailList.clear();
                 this.connectToSocket();
                 Communication communication = new Communication("send_email", email);
                 Communication response = sendCommunication(communication);
 
                 if(response == null) {
-                    Platform.runLater(() -> this.showAlert());
+                    Platform.runLater(() -> this.showAlert("Errore nella connessione al server, riprova più tardi"));
                     return;
                 }
 
@@ -176,10 +182,17 @@ public class ClientController {
                     Platform.runLater(() -> this.buttonsController.stage.setTitle("INVIATE"));
                     Platform.runLater(()-> this.buttonsController.loadPage("INVIATE"));
                 }
+                else if (response.getAction().equals("emails_not_saved")) {
+                    this.emailList = ((EmailBody) response.getBody()).getReceivers();
+                    Platform.runLater(() -> this.showAlert("Errore, email non inviata ai segnuetei utenti inesistneti: " + this.emailList.toString() ));
+                }
+                else{
+                    Platform.runLater(() -> this.showAlert("Errore nella connessione al server, riprova più tardi"));
+                }
                 this.closeSocketConnection();
 
             } catch (IOException e) {
-                Platform.runLater(() -> this.showAlert());
+                Platform.runLater(() -> this.showAlert("Errore nella connessione al server, riprova più tardi"));
             }
         });
     }
@@ -233,7 +246,7 @@ public class ClientController {
                         new BaseBody(this.clientModel.emailAddressProperty().getValue()));
                 Communication response = sendCommunication(request);
 
-                if (response == null) { Platform.runLater(() -> this.showAlert()); }
+                if (response == null) { Platform.runLater(() -> this.showAlert("Errore nella connessione al server, riprova più tardi")); }
 
                 BooleanBody responseBody = (BooleanBody) response.getBody();
 
