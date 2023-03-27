@@ -191,8 +191,12 @@ public class ClientController {
 				Communication communication = new Communication("send_email", email);
 				Communication response = sendCommunication(communication);
 
-				if (response == null || response.getAction().equals("emails_not_saved")) {
+				if (response == null ) {
 					Platform.runLater(() -> this.showAlert("Errore nella connessione al server, riprova più tardi"));
+					return;
+				}
+				if(response.getAction().equals("emails_not_saved")) {
+					Platform.runLater(() -> this.showAlert("L'email non è stata inviata. Utente non esistente."));
 					return;
 				}
 
