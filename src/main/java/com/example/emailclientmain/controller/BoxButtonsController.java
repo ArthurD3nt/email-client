@@ -40,6 +40,7 @@ public class BoxButtonsController {
        Button button = (Button)actionEvent.getSource();
        stage.setTitle(button.getText());
 
+
        switch(button.getText()){
            case "SCRIVI":
                root.setCenter(this.writeView);
@@ -79,6 +80,7 @@ public class BoxButtonsController {
                 break;
         }
     }
+
 }
 
 

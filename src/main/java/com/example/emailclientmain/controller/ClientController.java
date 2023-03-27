@@ -44,7 +44,6 @@ public class ClientController {
 	private Timestamp timestamp;
 	private boolean showOneTimeAlert;
 
-	private boolean showSendOneTimeAlert;
 	private List<String> emailList;
 
 
@@ -236,23 +235,35 @@ public class ClientController {
 		});
 	}
 
-	public void moveToBin(String id, String email) {
+	public void moveToBin(String id, String email, String from) {
 		threadPool.execute(() -> {
 			try {
 				this.connectToSocket();
 				BinBody bin = new BinBody(id, email);
-				System.out.println(clientModel.getTextView());
 				Communication communication = new Communication("bin", bin);
 				Communication response = sendCommunication(communication);
 				BooleanBody responseBody = (BooleanBody) response.getBody();
 
 				if (response.getAction().equals("bin_ok") && responseBody.isResult()) {
 					EmailBody emailBody = null;
-					ObservableList<EmailBody> inboxContent = clientModel.getInboxContent();
-					for (int i = 0; i < inboxContent.size(); i++) {
-						if (inboxContent.get(i).getId().equals(id)) {
-							emailBody = inboxContent.get(i);
-							inboxContent.remove(i);
+					ObservableList<EmailBody> contentToUse = null;
+
+					if(from.equals("sent")){
+						contentToUse = clientModel.getSentContent();
+					}
+					else if(from.equals("received")){
+						contentToUse = clientModel.getInboxContent();
+					}
+
+					if(contentToUse == null) {
+						Platform.runLater(() ->this.showSendAlert("Errore, l'email non può essere spostata nel cestino." ));
+						return;
+					}
+
+					for (int i = 0; i < contentToUse.size(); i++) {
+						if (contentToUse.get(i).getId().equals(id)) {
+							emailBody = contentToUse.get(i);
+							contentToUse.remove(i);
 							break;
 						}
 					}
@@ -264,7 +275,7 @@ public class ClientController {
 						Platform.runLater(() -> clientModel.setTextView("received"));
 						Platform.runLater(() -> this.clientModel.setCurrentEmails());
 					} else {
-						System.out.println("rotto: moveToBin"); // TODO
+						Platform.runLater(() ->this.showSendAlert("Errore, email non trovata!" ));
 					}
 
 					/* change title to  cestino*/

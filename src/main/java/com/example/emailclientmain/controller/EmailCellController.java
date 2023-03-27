@@ -46,6 +46,7 @@ public class EmailCellController extends ListCell<EmailBody> {
 
         itemProperty().addListener((obs, oldValue, newValue) -> {   
             this.email = newValue;
+
             if (newValue == null) {
                 return;
             }
@@ -77,13 +78,7 @@ public class EmailCellController extends ListCell<EmailBody> {
                 String strMonth = simpleFormat.format(dateEmail.getTime());
                 this.time.setText(dateEmail.get(Calendar.DAY_OF_MONTH) + " " + strMonth);
             }
-            /*
-             * if(newValue.getBin()){
-             * if(!getStyleClass().contains("toRead")) getStyleClass().add("toRead");
-             * }else {
-             * getStyleClass().remove("toRead");
-             * }
-             */
+
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         });
         

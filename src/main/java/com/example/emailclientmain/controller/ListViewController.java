@@ -54,7 +54,10 @@ public class ListViewController {
         });
     }
 
-
+    public void setDeleteAll(Boolean value) {
+        this.deleteAll.setVisible(value);
+        this.deleteAll.setManaged(value);
+    }
 
     public void deleteAllEmails(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         this.clientController.deleteAllEmails();

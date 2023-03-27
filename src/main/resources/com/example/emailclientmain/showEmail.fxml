@@ -63,6 +63,15 @@
                   </ImageView>
                </graphic>
             </Button>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#forward" style="-fx-background-color: #fff; -fx-border-color: #fff;">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@./images/forward.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </HBox>
    </children>

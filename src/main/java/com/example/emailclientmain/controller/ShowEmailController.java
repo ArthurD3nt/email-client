@@ -63,7 +63,7 @@ public class ShowEmailController {
 
     @FXML
     public void moveEmailToBin(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
-        this.clientController.moveToBin(this.email.getId(), this.clientModel.emailAddressProperty().getValue());
+        this.clientController.moveToBin(this.email.getId(), this.clientModel.emailAddressProperty().getValue(), clientModel.getTextView());
     }
 
     @FXML
@@ -91,6 +91,16 @@ public class ShowEmailController {
         this.writeController.receivers.setText(allReceivers);
         this.writeController.subject.setText(this.email.getSubject().contains("RE") ? this.email.getSubject() : "RE: " + this.email.getSubject());
         this.writeController.message.setText("\n---------------------------\n" + this.email.getText());
+        root.setCenter(this.writeView);
+
+    }
+
+    @FXML
+    public void forward(ActionEvent actionEvent) {
+
+        this.writeController.subject.setText(this.email.getSubject());
+        this.writeController.message.setText("\n\n---------- Forwarded message ---------\nFrom: "  +
+                this.email.getSender() + "\n\n" + this.email.getText());
         root.setCenter(this.writeView);
 
     }
