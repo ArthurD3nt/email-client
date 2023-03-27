@@ -45,7 +45,6 @@ public class EmailCellController extends ListCell<EmailBody> {
         emailCell.load();
 
         itemProperty().addListener((obs, oldValue, newValue) -> {   
-            // Empty cell
             this.email = newValue;
             if (newValue == null) {
                 return;
