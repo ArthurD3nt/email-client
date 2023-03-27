@@ -184,7 +184,7 @@ public class ClientController {
                 }
                 else if (response.getAction().equals("emails_not_saved")) {
                     this.emailList = ((EmailBody) response.getBody()).getReceivers();
-                    Platform.runLater(() -> this.showAlert("Errore, email non inviata ai segnuetei utenti inesistneti: " + this.emailList.toString() ));
+                    Platform.runLater(() -> this.showAlert("Errore, email non inviata ai seguenti utenti inesistenti: " + this.emailList.toString() ));
                 }
                 else{
                     Platform.runLater(() -> this.showAlert("Errore nella connessione al server, riprova più tardi"));
