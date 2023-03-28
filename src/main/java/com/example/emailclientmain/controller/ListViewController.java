@@ -7,11 +7,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 
 public class ListViewController {
+
+    @FXML
+    public Label noEmails;
+
     @FXML
     public ListView listviewEmail;
 
@@ -30,7 +35,20 @@ public class ListViewController {
         this.clientController = clientController;
 
         clientModel.getCurrentEmails().addListener((ListChangeListener<EmailBody>)(value)-> {
-            listviewEmail.itemsProperty().setValue(value.getList());
+            if(value.getList().size() > 0) {
+                this.noEmails.setVisible(false);
+                this.noEmails.setManaged(false);
+                this.listviewEmail.setVisible(true);
+                this.listviewEmail.setManaged(true);
+                listviewEmail.itemsProperty().setValue(value.getList());
+            }
+            else{
+                this.noEmails.setVisible(true);
+                this.noEmails.setManaged(true);
+                this.listviewEmail.setVisible(false);
+                this.listviewEmail.setManaged(false);
+            }
+
         });
 
         clientModel.getTextView().addListener((observableValue,oldValue,newValue)-> {
@@ -47,7 +65,7 @@ public class ListViewController {
         listviewEmail.setCellFactory((listView)-> {
             try {
                 this.deleteAll.setVisible(true);
-                return new EmailCellController(clientModel, listviewEmail, showEmailView, root, ShowEmailController);
+                return new EmailCellController(showEmailView, root, ShowEmailController);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

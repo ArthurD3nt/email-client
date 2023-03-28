@@ -35,7 +35,7 @@ public class EmailCellController extends ListCell<EmailBody> {
 
     private EmailBody email;
 
-    public EmailCellController(ClientModel clientModel, ListView listviewEmail, Parent showEmailView, BorderPane root, ShowEmailController showEmailController) throws IOException {
+    public EmailCellController( Parent showEmailView, BorderPane root, ShowEmailController showEmailController) throws IOException {
         this.showEmailView = showEmailView;
         this.root = root;
         this.showEmailController = showEmailController;

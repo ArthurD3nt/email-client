@@ -6,6 +6,7 @@ import com.example.transmission.EmailBody;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -24,6 +25,16 @@ public class ShowEmailController {
 
     @FXML
     public TextField sender;
+
+    @FXML
+    public Button replyToAllButton;
+
+    @FXML
+    public Button forwardButton;
+
+    @FXML
+    public Button replyButton;
+
 
     private EmailBody email;
 
@@ -58,6 +69,18 @@ public class ShowEmailController {
         this.subject.setText(email.getSubject());
         this.message.setText(email.getText());
         this.oldView = this.clientModel.getTextView().getValue();
+
+
+        if(clientModel.getTextView().getValue().equals("bin")){
+            this.forwardButton.setVisible(false);
+            this.replyButton.setVisible(false);
+            this.replyToAllButton.setVisible(false);
+        }
+        else {
+            this.forwardButton.setVisible(true);
+            this.replyButton.setVisible(true);
+            this.replyToAllButton.setVisible(true);
+        }
     }
 
 
