@@ -46,6 +46,10 @@ public class WriteController {
 
          this.clientController.sendEmail(email);
 
+         this.message.setText("");
+         this.subject.setText("");
+         this.receivers.setText("");
+
     }
 
 }

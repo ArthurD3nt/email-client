@@ -64,7 +64,14 @@ public class ListViewController {
 
         listviewEmail.setCellFactory((listView)-> {
             try {
-                this.deleteAll.setVisible(true);
+                if(clientModel.getTextView().getValue().equals("bin")) {
+                    this.deleteAll.setVisible(true);
+                    this.deleteAll.setManaged(true);
+                }
+                else {
+                    this.deleteAll.setVisible(false);
+                    this.deleteAll.setManaged(false);
+                }
                 return new EmailCellController(showEmailView, root, ShowEmailController);
             } catch (IOException e) {
                 throw new RuntimeException(e);

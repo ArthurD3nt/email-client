@@ -104,27 +104,27 @@ public class BoxButtonsController {
         switch(button){
             case "SCRIVI":
                 this.writeButton.getStyleClass().add("button-selected");
-                this.receivedButton.getStyleClass().remove("button-selected");
-                this.binButton.getStyleClass().remove("button-selected");
-                this.sendButton.getStyleClass().remove("button-selected");
+                this.receivedButton.getStyleClass().removeAll("button-selected");
+                this.binButton.getStyleClass().removeAll("button-selected");
+                this.sendButton.getStyleClass().removeAll("button-selected");
                 break;
             case "IN ARRIVO":
-                this.writeButton.getStyleClass().remove("button-selected");
+                this.writeButton.getStyleClass().removeAll("button-selected");
                 this.receivedButton.getStyleClass().add("button-selected");
-                this.binButton.getStyleClass().remove("button-selected");
-                this.sendButton.getStyleClass().remove("button-selected");
+                this.binButton.getStyleClass().removeAll("button-selected");
+                this.sendButton.getStyleClass().removeAll("button-selected");
                 break;
             case "INVIATE":
-                this.writeButton.getStyleClass().remove("button-selected");
-                this.receivedButton.getStyleClass().remove("button-selected");
-                this.binButton.getStyleClass().remove("button-selected");
+                this.writeButton.getStyleClass().removeAll("button-selected");
+                this.receivedButton.getStyleClass().removeAll("button-selected");
+                this.binButton.getStyleClass().removeAll("button-selected");
                 this.sendButton.getStyleClass().add("button-selected");
                 break;
             case "CESTINO":
-                this.writeButton.getStyleClass().remove("button-selected");
-                this.receivedButton.getStyleClass().remove("button-selected");
+                this.writeButton.getStyleClass().removeAll("button-selected");
+                this.receivedButton.getStyleClass().removeAll("button-selected");
                 this.binButton.getStyleClass().add("button-selected");
-                this.sendButton.getStyleClass().remove("button-selected");
+                this.sendButton.getStyleClass().removeAll("button-selected");
                 break;
         }
 

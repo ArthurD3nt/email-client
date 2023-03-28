@@ -67,10 +67,17 @@ public class ClientController {
 		}
 	}
 
-	private void showSendAlert(String msg) {
-		Alert.AlertType alertType = Alert.AlertType.ERROR;
+	private void showSendAlert(String msg, String type) {
+
+		Alert.AlertType alertType = type.equals("info") ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR;
 		Alert alert = new Alert(alertType, msg);
-		alert.showAndWait();
+		alert.show();
+	}
+
+	private void showNewEmailsAlert(String msg) {
+		Alert.AlertType alertType = Alert.AlertType.INFORMATION;
+		Alert alert = new Alert(alertType, msg);
+		alert.show();
 	}
 
 	private void connectToSocket() {
@@ -153,6 +160,8 @@ public class ClientController {
 					Collections.reverse(emails);
 
 					Platform.runLater(() -> this.clientModel.setNewEmailInboxContent(emails));
+					if(emails.size() > 0)
+						Platform.runLater(() -> this.showNewEmailsAlert("Hai "+ emails.size() + " nuove email"));
 					this.showOneTimeAlert = false;
 					return;
 				}
@@ -198,7 +207,7 @@ public class ClientController {
 				this.connectToSocket();
 
 				if (this.serverStatus == false) {
-					Platform.runLater(() -> this.showSendAlert("Errore nella connessione al server, riprova più tardi"));
+					Platform.runLater(() -> this.showSendAlert("Errore nella connessione al server, riprova più tardi", "error"));
 					return;
 				}
 
@@ -206,12 +215,12 @@ public class ClientController {
 				Communication response = sendCommunication(communication);
 
 				if (response == null) {
-					Platform.runLater(() -> this.showSendAlert("Errore nella connessione al server, riprova più tardi"));
+					Platform.runLater(() -> this.showSendAlert("Errore nella connessione al server, riprova più tardi","error"));
 					return;
 				}
 
 				if (response.getAction().equals("emails_not_saved")) {
-					Platform.runLater(() -> this.showSendAlert("L'email non è stata inviata. Utenti non esistente."));
+					Platform.runLater(() -> this.showSendAlert("L'email non è stata inviata. Utenti non esistente.", "error"));
 					return;
 				}
 
@@ -227,12 +236,12 @@ public class ClientController {
 					Platform.runLater(() -> this.buttonsController.stage.setTitle("INVIATE"));
 					Platform.runLater(() -> this.buttonsController.loadPage("INVIATE"));
 					Platform.runLater(() -> this.buttonsController.setButtonCss("INVIATE"));
-					Platform.runLater(() -> this.showSendAlert("Errore, email non inviata ai seguenti utenti inesistenti: " + this.emailList.toString()));
+					Platform.runLater(() -> this.showSendAlert("Errore, email non inviata ai seguenti utenti inesistenti: " + this.emailList.toString(), "info"));
 				}
 
 				this.closeSocketConnection();
 			} catch (IOException e) {
-				Platform.runLater(() -> this.showSendAlert("Errore nella connessione al server, riprova più tardi"));
+				Platform.runLater(() -> this.showSendAlert("Errore nella connessione al server, riprova più tardi", "error"));
 			}
 		});
 	}
@@ -258,7 +267,7 @@ public class ClientController {
 					}
 
 					if(contentToUse == null) {
-						Platform.runLater(() ->this.showSendAlert("Errore, l'email non può essere spostata nel cestino." ));
+						Platform.runLater(() ->this.showSendAlert("Errore, l'email non può essere spostata nel cestino.","error" ));
 						return;
 					}
 
@@ -277,7 +286,7 @@ public class ClientController {
 						Platform.runLater(() -> clientModel.setTextView("received"));
 						Platform.runLater(() -> this.clientModel.setCurrentEmails());
 					} else {
-						Platform.runLater(() ->this.showSendAlert("Errore, email non trovata!" ));
+						Platform.runLater(() ->this.showSendAlert("Errore, email non trovata!", "error"));
 					}
 
 					/* change title to  cestino*/
@@ -285,7 +294,7 @@ public class ClientController {
 					Platform.runLater(() -> this.buttonsController.loadPage("CESTINO"));
 				}
 				else {
-					Platform.runLater(() -> this.showSendAlert("Errore, l'email non può essere spostata nel cestino." ));
+					Platform.runLater(() -> this.showSendAlert("Errore, l'email non può essere spostata nel cestino.", "error" ));
 				}
 
 				this.closeSocketConnection();
@@ -312,7 +321,7 @@ public class ClientController {
 				if (response.getAction().equals("delete_permanently_ok") && responseBody.isResult()) {
 					Platform.runLater(() -> this.clientModel.removeBinContent());
 				} else {
-					Platform.runLater(() -> this.showSendAlert("Le email non sono state eliminate." ));
+					Platform.runLater(() -> this.showSendAlert("Le email non sono state eliminate.", "error" ));
 
 				}
 
