@@ -23,6 +23,11 @@
             <Insets left="5.0" />
          </padding>
       </HBox>
+      <Button fx:id="writeButton" mnemonicParsing="false" onAction="#loadPageController" prefHeight="26.0" prefWidth="173.0" styleClass="button" text="SCRIVI" >
+         <VBox.margin>
+            <Insets left="13.0" />
+         </VBox.margin>
+      </Button>
       <Button fx:id="receivedButton" mnemonicParsing="false" onAction="#loadPageController" prefHeight="26.0" prefWidth="173.0" styleClass="button" text="IN ARRIVO">
          <VBox.margin>
             <Insets left="13.0" />
@@ -37,11 +42,6 @@
          <VBox.margin>
             <Insets left="13.0" />
          </VBox.margin>
-      </Button>
-      <Button fx:id="writeButton" mnemonicParsing="false" onAction="#loadPageController" prefHeight="26.0" prefWidth="173.0" styleClass="button" text="SCRIVI" >
-         <VBox.margin>
-         <Insets left="13.0" />
-      </VBox.margin>
       </Button>
    </children>
 </VBox>

@@ -56,7 +56,6 @@ public class ClientController {
 		this.timestamp = null;
 		this.emailList = new ArrayList<>();
 		threadPool = Executors.newFixedThreadPool(10);
-
 	}
 
 	private void showAlert(String msg) {
@@ -190,6 +189,7 @@ public class ClientController {
 		});
 	}
 
+
 	public void sendEmail(EmailBody email) {
 		threadPool.execute(() -> {
 			try {
@@ -229,6 +229,7 @@ public class ClientController {
 					Platform.runLater(() -> this.buttonsController.setButtonCss("INVIATE"));
 					Platform.runLater(() -> this.showSendAlert("Errore, email non inviata ai seguenti utenti inesistenti: " + this.emailList.toString()));
 				}
+
 				this.closeSocketConnection();
 			} catch (IOException e) {
 				Platform.runLater(() -> this.showSendAlert("Errore nella connessione al server, riprova più tardi"));
@@ -283,6 +284,9 @@ public class ClientController {
 					Platform.runLater(() -> this.buttonsController.stage.setTitle("CESTINO"));
 					Platform.runLater(() -> this.buttonsController.loadPage("CESTINO"));
 				}
+				else {
+					Platform.runLater(() -> this.showSendAlert("Errore, l'email non può essere spostata nel cestino." ));
+				}
 
 				this.closeSocketConnection();
 			} catch (IOException e) {
@@ -308,7 +312,8 @@ public class ClientController {
 				if (response.getAction().equals("delete_permanently_ok") && responseBody.isResult()) {
 					Platform.runLater(() -> this.clientModel.removeBinContent());
 				} else {
-					System.out.println("rotto: deleteAllEmails"); // TODO
+					Platform.runLater(() -> this.showSendAlert("Le email non sono state eliminate." ));
+
 				}
 
 				this.closeSocketConnection();
