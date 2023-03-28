@@ -181,7 +181,6 @@ public class ClientController {
 
 				ArrayList<ArrayList<EmailBody>> emails = ((ConnectionBody) (response.getBody())).getEmails();
 
-				/* FARE SU SERVER: Faccio il reverse per avere le email in ordine di orario */
 				Collections.reverse(emails.get(0));
 				Collections.reverse(emails.get(1));
 				Collections.reverse(emails.get(2));
