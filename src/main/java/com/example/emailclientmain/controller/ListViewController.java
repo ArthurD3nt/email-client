@@ -30,8 +30,11 @@ public class ListViewController {
         this.clientController = clientController;
 
         clientModel.getCurrentEmails().addListener((ListChangeListener<EmailBody>)(value)-> {
+            listviewEmail.itemsProperty().setValue(value.getList());
+        });
 
-            if(clientModel.getTextView().equals("bin")) {
+        clientModel.getTextView().addListener((observableValue,oldValue,newValue)-> {
+            if(newValue.equals("bin")) {
                 this.deleteAll.setVisible(true);
                 this.deleteAll.setManaged(true);
             }
@@ -39,10 +42,7 @@ public class ListViewController {
                 this.deleteAll.setVisible(false);
                 this.deleteAll.setManaged(false);
             }
-
-            listviewEmail.itemsProperty().setValue(value.getList());
         });
-
 
         listviewEmail.setCellFactory((listView)-> {
             try {

@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="root" fx:controller="com.example.emailclientmain.controller.MainController" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.emailclientmain.controller.MainController">
    <center>
-   <VBox  alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" >
+   <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0">
       <children>
          <Label text="Inserici la tua email" />
-         <TextField fx:id="loginTextField"/>
-         <Button mnemonicParsing="false" text="ACCEDI" onAction="#loadController" defaultButton="true"/>
+         <TextField fx:id="loginTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="400.0" style="-fx-border-color: #212121; -fx-background-radius: 20; -fx-border-radius: 20;" />
+         <Button defaultButton="true" mnemonicParsing="false" onAction="#loadController" text="ACCEDI" styleClass="default-button"/>
       </children>
    </VBox>
    </center>
 </BorderPane>
-

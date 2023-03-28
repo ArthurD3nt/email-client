@@ -216,18 +216,19 @@ public class ClientController {
 				}
 
 				if(response.getAction().equals("emails_saved")) {
-					Platform.runLater(() -> clientModel.setNewEmailSentContent(email));
+					Platform.runLater(() ->  clientModel.setNewEmailSentContent(email));
 					Platform.runLater(() -> this.buttonsController.stage.setTitle("INVIATE"));
 					Platform.runLater(() -> this.buttonsController.loadPage("INVIATE"));
+					Platform.runLater(() -> this.buttonsController.setButtonCss("INVIATE"));
 				}
 				else if (response.getAction().equals("emails_saved_with_error")) {
 					this.emailList = ((EmailBody) response.getBody()).getReceivers();
 					Platform.runLater(() -> clientModel.setNewEmailSentContent(email));
 					Platform.runLater(() -> this.buttonsController.stage.setTitle("INVIATE"));
 					Platform.runLater(() -> this.buttonsController.loadPage("INVIATE"));
+					Platform.runLater(() -> this.buttonsController.setButtonCss("INVIATE"));
 					Platform.runLater(() -> this.showSendAlert("Errore, email non inviata ai seguenti utenti inesistenti: " + this.emailList.toString()));
 				}
-
 				this.closeSocketConnection();
 			} catch (IOException e) {
 				Platform.runLater(() -> this.showSendAlert("Errore nella connessione al server, riprova più tardi"));

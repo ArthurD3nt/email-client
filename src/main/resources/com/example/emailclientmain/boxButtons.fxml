@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="25.0" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.emailclientmain.controller.BoxButtonsController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="25.0" style="-fx-background-color: #777777;" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.emailclientmain.controller.BoxButtonsController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
@@ -18,15 +17,31 @@
                   <Image url="@images/account_icon.png" />
                </image>
             </ImageView>
-            <Label prefHeight="17.0" prefWidth="173.0" text="Email" fx:id="emailLabel"/>
+            <Label fx:id="emailLabel" prefHeight="17.0" prefWidth="173.0" text="Email" style="-fx-text-fill: #fff;"/>
          </children>
          <padding>
             <Insets left="5.0" />
          </padding>
       </HBox>
-      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="173.0" text="SCRIVI" onAction="#loadPageController"/>
-      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="173.0" text="IN ARRIVO" onAction="#loadPageController"/>
-      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="173.0" text="INVIATE" onAction="#loadPageController" />
-      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="172.0" text="CESTINO" onAction="#loadPageController"/>
+      <Button fx:id="receivedButton" mnemonicParsing="false" onAction="#loadPageController" prefHeight="26.0" prefWidth="173.0" styleClass="button" text="IN ARRIVO">
+         <VBox.margin>
+            <Insets left="13.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="sendButton" mnemonicParsing="false" onAction="#loadPageController" prefHeight="26.0" prefWidth="173.0" styleClass="button" text="INVIATE" >
+         <VBox.margin>
+            <Insets left="13.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="binButton" mnemonicParsing="false" onAction="#loadPageController" prefHeight="26.0" prefWidth="172.0" styleClass="button" text="CESTINO" >
+         <VBox.margin>
+            <Insets left="13.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="writeButton" mnemonicParsing="false" onAction="#loadPageController" prefHeight="26.0" prefWidth="173.0" styleClass="button" text="SCRIVI" >
+         <VBox.margin>
+         <Insets left="13.0" />
+      </VBox.margin>
+      </Button>
    </children>
 </VBox>

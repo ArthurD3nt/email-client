@@ -57,13 +57,13 @@ public class ShowEmailController {
         this.receivers.setText(email.getReceivers().toString().replace("[", "").replace("]",""));
         this.subject.setText(email.getSubject());
         this.message.setText(email.getText());
-        this.oldView = this.clientModel.getTextView();
+        this.oldView = this.clientModel.getTextView().getValue();
     }
 
 
     @FXML
     public void moveEmailToBin(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
-        this.clientController.moveToBin(this.email.getId(), this.clientModel.emailAddressProperty().getValue(), clientModel.getTextView());
+        this.clientController.moveToBin(this.email.getId(), this.clientModel.emailAddressProperty().getValue(), clientModel.getTextView().getValue());
     }
 
     @FXML

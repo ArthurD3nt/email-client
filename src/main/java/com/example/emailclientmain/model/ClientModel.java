@@ -110,8 +110,8 @@ public class ClientModel {
         inboxContent.remove(email);
     }
 
-    public String getTextView() {
-        return textView.get();
+    public StringProperty getTextView() {
+        return textView;
     }
 
     public StringProperty textViewProperty() {

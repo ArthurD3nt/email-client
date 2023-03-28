@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -44,10 +45,8 @@ public class MainController {
     public void loadController(ActionEvent actionEvent) {
 
         try{
-            /*recupero finestra tramite id e setto un nuovo titolo*/
-            stage = (Stage) root.getScene().getWindow();
-            stage.setTitle("client mail");
 
+            stage = (Stage) root.getScene().getWindow();
 
             if(!loginTextField.getText().matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")){
                 Alert.AlertType alertType = Alert.AlertType.ERROR;
@@ -55,6 +54,10 @@ public class MainController {
                 Platform.runLater(()-> alert.showAndWait());
                 return;
             }
+
+            stage.setTitle("client mail");
+            stage.setHeight(600);
+            stage.setWidth(900);
 
             clientModel = new ClientModel(loginTextField.getText());
             /* Carico l'xml dei bottoni a sinistra*/

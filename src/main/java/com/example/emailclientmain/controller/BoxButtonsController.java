@@ -16,6 +16,16 @@ public class BoxButtonsController {
     public Label emailLabel;
 
     @FXML
+    public Button receivedButton;
+
+    @FXML
+    public Button sendButton;
+    @FXML
+    public Button binButton;
+    @FXML
+    public Button writeButton;
+
+    @FXML
     private BorderPane root;
 
     @FXML
@@ -43,17 +53,22 @@ public class BoxButtonsController {
 
        switch(button.getText()){
            case "SCRIVI":
+               setButtonCss("SCRIVI");
                root.setCenter(this.writeView);
                break;
            case "IN ARRIVO":
+           default:
+               setButtonCss("IN ARRIVO");
                root.setCenter(this.listView);
                clientModel.setTextView("received");
                break;
            case "INVIATE":
+               setButtonCss("INVIATE");
                root.setCenter(this.listView);
                clientModel.setTextView("sent");
                break;
            case "CESTINO":
+               setButtonCss("CESTINO");
                root.setCenter(this.listView);
                clientModel.setTextView("bin");
                break;
@@ -64,21 +79,55 @@ public class BoxButtonsController {
     public void loadPage(String button){
         switch(button){
             case "SCRIVI":
+                setButtonCss("SCRIVI");
                 root.setCenter(this.writeView);
                 break;
             case "IN ARRIVO":
+                setButtonCss("IN ARRIVO");
                 root.setCenter(this.listView);
                 clientModel.setTextView("received");
                 break;
             case "INVIATE":
+                setButtonCss("INVIATE");
                 root.setCenter(this.listView);
                 clientModel.setTextView("sent");
                 break;
             case "CESTINO":
+                setButtonCss("CESTINO");
                 root.setCenter(this.listView);
                 clientModel.setTextView("bin");
                 break;
         }
+    }
+
+    public void setButtonCss(String button){
+        switch(button){
+            case "SCRIVI":
+                this.writeButton.getStyleClass().add("button-selected");
+                this.receivedButton.getStyleClass().remove("button-selected");
+                this.binButton.getStyleClass().remove("button-selected");
+                this.sendButton.getStyleClass().remove("button-selected");
+                break;
+            case "IN ARRIVO":
+                this.writeButton.getStyleClass().remove("button-selected");
+                this.receivedButton.getStyleClass().add("button-selected");
+                this.binButton.getStyleClass().remove("button-selected");
+                this.sendButton.getStyleClass().remove("button-selected");
+                break;
+            case "INVIATE":
+                this.writeButton.getStyleClass().remove("button-selected");
+                this.receivedButton.getStyleClass().remove("button-selected");
+                this.binButton.getStyleClass().remove("button-selected");
+                this.sendButton.getStyleClass().add("button-selected");
+                break;
+            case "CESTINO":
+                this.writeButton.getStyleClass().remove("button-selected");
+                this.receivedButton.getStyleClass().remove("button-selected");
+                this.binButton.getStyleClass().add("button-selected");
+                this.sendButton.getStyleClass().remove("button-selected");
+                break;
+        }
+
     }
 
 }

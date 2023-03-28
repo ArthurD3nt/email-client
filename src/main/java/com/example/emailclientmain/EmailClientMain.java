@@ -19,11 +19,11 @@ public class EmailClientMain extends Application {
     public void start(Stage stage) throws IOException {
 
         FXMLLoader login = new FXMLLoader(EmailClientMain.class.getResource("login.fxml"));
-        Scene scene = new Scene(login.load(), 900, 600);
+        Scene scene = new Scene(login.load(), 600, 300);
+        scene.getStylesheets().add(getClass().getResource( "style/style.css" ).toExternalForm());
         stage.setTitle("Login");
         stage.setScene(scene);
         scene.getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, (WindowEvent e)-> System.exit(1));
-
         stage.show();
     }
 

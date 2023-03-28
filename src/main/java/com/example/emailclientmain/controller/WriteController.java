@@ -45,7 +45,7 @@ public class WriteController {
 
          EmailBody email = new EmailBody(this.clientModel.emailAddressProperty().getValue(),receiversEmail,subject.getText(),message.getText());
 
-        this.clientController.sendEmail(email);
+         this.clientController.sendEmail(email);
 
     }
 }

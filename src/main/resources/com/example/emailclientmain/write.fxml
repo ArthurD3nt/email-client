@@ -18,7 +18,7 @@
       <TextArea fx:id="message" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="messaggio" />
       <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Invia" onAction="#sendEmail"/>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Invia" styleClass="default-button" onAction="#sendEmail"/>
          </children>
       </HBox>
    </children>
